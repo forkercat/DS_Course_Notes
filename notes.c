@@ -212,12 +212,12 @@ int ListInsert(SqList &L, int i, ListData e)
         L.listsize += LISTINCREMENT;
     }
 
-    q = L.data + i - 1;
+    q = L.data + i - 1; // insert position
     for (p = L.data + L.length - 1; p >= q; --p) {
-        *(p + 1) = *p;
+        *(p + 1) = *p; // move 2 right
     }
     *q = e;
-    ++L.length;
+    L.length++;
     return 1;
 }
 
@@ -225,10 +225,10 @@ int ListDelete(Sqlist &L, int i)
 {
     ListData *p, *q;
     if (i < 1 || i > L.length) return 0;
-    p = L.data + i - 1;
+    p = L.data + i - 1; // delete position
     q = L.data + L.length - 1;
     for (++p; p <= q; ++p)
-        *(p - 1) = *p;
+        *(p - 1) = *p; // move 2 left
     L.length--;
     return 1;
 }
