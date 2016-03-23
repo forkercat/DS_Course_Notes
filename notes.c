@@ -1,4 +1,8 @@
-// Static Linear Order List
+/*
+    SeqList - Static
+*/
+
+typedef char ListData
 
 #define ListSize 100
 typedef struct {
@@ -6,17 +10,18 @@ typedef struct {
     int length;
 } SeqList;
 
-InitList(&L);
-DestroyList(&L);
-ClearList(&L);
-ListEmpty(L);
-ListLength(L);
-GetElem(L, i);
-LocateElem(L, x);
-NextElem();
-PriorElem();
-ListInsert();
-ListDelete();
+// At a glance
+InitList(SeqList &L);
+DestroyList(SeqList &L);
+ClearList(SeqList &L);
+ListEmpty(SeqList L);
+ListLength(SeqList L);
+GetElem(SeqList L, int i);
+LocateElem(SeqList L, ListData x);
+NextElem(SeqList L, ListData x);
+PriorElem(SeqList L, ListData x);
+ListInsert(SeqList &L, int i, ListData x);
+ListDelete(SeqList &L, int i);
 
 void InitList(SeqList &L)
 {
@@ -116,7 +121,9 @@ int ListDelete(SeqList &L, int i)
     return 1;
 }
 
-// Dynamic Linear Order List
+/*
+    SqList - Dynamic
+*/
 
 #define LIST_INIT_SIZE 10
 #define LISTINCREMENT 5
