@@ -71,7 +71,7 @@ int NextElem(SeqList L, ListData x)
 {
     int i = 0;
     while (i < L.length && L.data[i] != x) i++;
-    if ((i >= 0) && (i < L.length - 1)) 
+    if (i < L.length - 1) 
         return i + 1;
     else
         return -1;
@@ -188,12 +188,20 @@ int IsIn(SqList L, ListData x)
 
 int NextElem(Sqlist L, ListData x)
 {
-    // ignore the same above
+    int i = 0;
+    while (i < L.length && *(L.data + i) != x) i++;
+    if (i < L.length - 1) return i + 1;
+    else return -1;
 }
 
 int PriorElem(Sqlist L, ListData x)
 {
-    // ignore the same above
+    int i = 0;
+    while (i < L.length && *(L.data + i) != x) i++;
+    if (i > 0 && i < L.length)
+        return i - 1;
+    else
+        return -1;
 }
 
 int ListInsert(SqList &L, int i, ListData e)
