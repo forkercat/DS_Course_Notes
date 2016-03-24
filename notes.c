@@ -237,10 +237,104 @@ int ListDelete(Sqlist &L, int i)
     return 1;
 }
 
+/*
+    Singly Linked List
+*/
 
+typedef struct node {
+    ListData data;
+    struct node *next;
+} ListNode;
+typedef ListNode *LinkList; // head pointer
 
+void InitList(LinkList &first)
+{
+    first = NULL;
+}
 
+void DestroyList(LinkList &first)
+{
+    ListNode *q;
+    while (first) {
+        q = first;
+        first = first -> next;
+        free(q);
+    }
+}
 
+void ClearList(LinkList &first)
+{
+    ListNode *q;
+    while (first) {
+        q = first;
+        first = first -> next;
+        free(q);
+    }
+}
+
+int ListEmpty(LinkList first)
+{
+    return !first;
+}
+
+int ListLength(LinkList first)
+{
+    LinkList p;
+    p = first;
+    int count = 0;
+    while (p) {
+        p = p->next;
+        count++;
+    }
+    return count;
+}
+
+ListData GetElem(LinkList first, int i)
+{
+    LinkList p;
+    int j = 1;
+    p = first;
+    while (p && j < i) {
+        p = p->next;
+        j++;
+    }
+    if (!p || j > i) return NULL;
+    return p->data;
+}
+
+LinkList LocateElem(LinkList first, ListData x)
+{
+    ListNode *p = first;
+    while (p && p->data != x)
+        p = p->next;
+    return p;
+}
+
+int IsIn(LinkList first, ListData x)
+{
+    ListNode *p = first;
+    while (p && p->data != x)
+        p = p->next;
+    return !(p == NULL);
+}
+
+LinkList NextElem(LinkList first, ListData x)
+{
+    LinkList p = first;
+    while (p && p->data != x)
+        p = p->next;
+    if (!p || !p->next) return NULL;
+    return p->next
+}
+
+LinkList PriorElem(LinkList first, ListData x)
+{
+    LinkList p = first;
+    while (p && p->next && p->next->data != x)
+        p = p->next;
+    if (!p || !p->next) return NULL;
+    return p;
+}
 
 
 
