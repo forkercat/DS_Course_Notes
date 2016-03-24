@@ -104,7 +104,7 @@ int ListDelete(SeqList &L, int i)
 {
     if (i < 1 || i > L.length)
         return 0;
-    for (int j = i - 1; j < L.length; j++)
+    for (int j = i - 1; j < L.length - 1; j++)
         L.data[j] = L.data[j + 1];
     L.length--;
     return 1;
