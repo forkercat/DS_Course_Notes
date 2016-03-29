@@ -1,7 +1,12 @@
-cmake_minimum_required(VERSION 3.4)
+cmake_minimum_required(VERSION 2.8)
 project(DS_Course_Notes)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+if ("${CMAKE_C_COMPILER_ID}" STREQUAL "MSVC")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /Wall")
+else ()
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror -std=c11")
+endif ()
 
-set(SOURCE_FILES src/main.c)
-add_executable(DS_Course_Notes ${SOURCE_FILES})
+file(GLOB SOURCES src/*.c)
+
+add_executable(DS_Course_Notes ${SOURCES})
