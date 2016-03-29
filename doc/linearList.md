@@ -1,8 +1,6 @@
 # 线性表
 
-## [定义](/doc/definitions.pdf)
-
-![线性表定义](/img/listdef.png)
+[定义](/doc/definitions.pdf)
 
 ## 基本操作
 
