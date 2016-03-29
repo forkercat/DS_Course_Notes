@@ -28,6 +28,8 @@
     aboveskip=1em
 }
 \usepackage{hyperref} %添加目录链接
+\usepackage{amsmath} % 数学符号
+\usepackage{amssymb}
 
 \title{数据结构与算法定义}
 \date{}
@@ -39,5 +41,5 @@
 
 将线性表表示为 $$(a_1, a_2, ..., a_{i-1}, a_i, a_{i+1}, ..., a_n)$$ $a_i$ 为表中元素，元素的类型需一致。表中 $a_{i-1}$ 领先于 $a_i$ ，$a_i$ 领先于 $a_{i+1}$ ，则称 $a_{i-1}$ 是 $a_i$ 的\textbf{直接前驱}，$a_{i+1}$ 是 $a_i$ 的\textbf{直接后继}。每个元素都有确定的位置，如 $a_1$ 是第一个元素；$a_i$ 中的 $i$ 是该元素的\textbf{位序}。
 
-表内的元素个数 $n(n>=0)$ 为线性表的\textbf{长度}，$n=0$ 时，线性表为空表。
+表内的元素个数 $n(n\geq0)$ 为线性表的\textbf{长度}，$n=0$ 时，线性表为空表。
 \end{document}
