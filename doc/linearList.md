@@ -1,5 +1,9 @@
 # 线性表
 
+## [定义](/doc/definitions.pdf)
+
+![线性表定义](/img/deflist.png)
+
 ## 基本操作
 
 - 生成线性表
