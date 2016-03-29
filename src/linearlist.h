@@ -3,54 +3,76 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <memory.h>
+#include <stdlib.h>
 
-// Static Sequenced List --SSeList
+// Static Sequenced List --SSList
 
 typedef char listData;
 
-#define sListSize 9999
+#define SSLSize 9999
 
-typedef struct sSeList SSeList;
+typedef struct sSList SSList;
 
 // Multiple return value
-typedef struct sListMultiReValue SListMultiReValue;
+typedef struct sSLMultiReVal SSLMultiReVal;
 
-struct sSeList {
+struct sSList {
     int16_t length;
-    listData data[sListSize];
+    listData data[SSLSize];
 };
 
-struct sListMultiReValue {
-    int16_t returnValue[sListSize];
+struct sSLMultiReVal {
+    int16_t returnValue[SSLSize];
 };
 
-int initSList(SSeList* slist);
+int initSSList(SSList* list);
 
-int destroySList(SSeList* slist);
+int destroySSList(SSList* list);
 
-int clearSList(SSeList* slist);
+int clearSSList(SSList* list);
 
-int ifSListIsEmpty(SSeList slist);
+int ifSSListIsEmpty(SSList list);
 
-int16_t getLengthOfSList(SSeList slist);
+int16_t getLengthOfSSList(SSList list);
 
 // Index start from 1 to length
-listData getSListElement(SSeList slist, int16_t index);
+listData getSSListElemAtIndex(SSList list, int16_t index);
 
 // return an array (multi return value) of Indexes which start from 1.
-SListMultiReValue locateSListElement(SSeList slist, listData element);
+SSLMultiReVal locateSSListElem(SSList list, listData elem);
 
-int ifElementIsInSList(SSeList slist, listData element);
+int ifElemIsInSSList(SSList list, listData elem);
 
-int16_t getSListNextElementIndex(SSeList slist, listData element);
+int16_t getSSListNextElemIndex(SSList list, listData elem);
 
-int16_t getSListPrevElementIndex(SSeList slist, listData element);
+int16_t getSSListPrevElemIndex(SSList list, listData elem);
 
-int insertSListElemAfterIndex(SSeList* slist, int16_t index, listData element);
+int insertSSListElemAfterIndex(SSList* list, int16_t index, listData elem);
 
-int deleteSListElemAtIndex(SSeList* slist, int16_t index);
+int deleteSSListElemAtIndex(SSList* list, int16_t index);
 
-// Dynamic Sequenced List --DSeList
+// Dynamic Sequenced List --DSList
+
+#define DSLInitSize 100
+#define DSLAddSize 10
+
+typedef struct dSList DSList;
+
+struct dSList {
+    listData* data;
+    int16_t length;
+    int16_t size;
+};
+
+int initDSList(DSList* list);
+
+int destroyDSList(DSList* list);
+
+int clearDSList(DSList* list);
+
+int ifDSListIsEmpty(DSList list);
+
+int16_t getLengthOfDSList(DSList list);
 
 // Static Linked List with Header --SLListH
 

@@ -1,49 +1,50 @@
 #include "linearlist.h"
 
-int initSList(SSeList* slist) {
-    if (!slist)
+// Static Sequenced List --SSList
+
+int initSSList(SSList* list) {
+    if (!list)
         return -1;
-    slist->length = 0;
+    list->length = 0;
     return 0;
 }
 
-int destroySList(SSeList* slist) {
-    if (!slist)
+int destroySSList(SSList* list) {
+    if (!list)
         return -1;
-    slist->length = 0;
+    list->length = 0;
     return 0;
 }
 
-int clearSList(SSeList* slist) {
-    if (!slist)
+int clearSSList(SSList* list) {
+    if (!list)
         return -1;
-    slist->length = 0;
+    list->length = 0;
     return 0;
 }
 
-int ifSListIsEmpty(SSeList slist) {
-    return !slist.length;
+int ifSSListIsEmpty(SSList list) {
+    return !list.length;
 }
 
-int16_t getLengthOfSList(SSeList slist) {
-    return slist.length;
+int16_t getLengthOfSSList(SSList list) {
+    return list.length;
 }
 
-
-listData getSListElement(SSeList slist, int16_t index) {
-    if (index >= 1 && index <= slist.length)
-        return slist.data[index - 1];
+listData getSSListElemAtIndex(SSList list, int16_t index) {
+    if (index >= 1 && index <= list.length)
+        return list.data[index - 1];
     else
         return -1;
 }
 
-SListMultiReValue locateSListElement(SSeList slist, listData element) {
-    SListMultiReValue retVal;
-    int16_t temp[sListSize] = {0};
+SSLMultiReVal locateSSListElem(SSList list, listData elem) {
+    SSLMultiReVal retVal;
+    int16_t temp[SSLSize] = {0};
     memcpy(retVal.returnValue, temp, sizeof(retVal.returnValue));
     int16_t counter = 0;
-    for (int i = 0; i < sListSize; ++i) {
-        if (slist.data[i] == element) {
+    for (int i = 0; i < SSLSize; ++i) {
+        if (list.data[i] == elem) {
             retVal.returnValue[counter] = (int16_t) (i + 1);
             ++counter;
         }
@@ -51,11 +52,11 @@ SListMultiReValue locateSListElement(SSeList slist, listData element) {
     return retVal;
 }
 
-int ifElementIsInSList(SSeList slist, listData element) {
+int ifElemIsInSSList(SSList list, listData elem) {
     int16_t i = 0;
     int found = 0;
-    while (i < slist.length && !found) {
-        if (slist.data[i] != element)
+    while (i < list.length && !found) {
+        if (list.data[i] != elem)
             ++i;
         else
             found = 1;
@@ -63,50 +64,97 @@ int ifElementIsInSList(SSeList slist, listData element) {
     return found;
 }
 
-int16_t getSListNextElementIndex(SSeList slist, listData element) {
+int16_t getSSListNextElemIndex(SSList list, listData elem) {
     int16_t i = 0;
-    while (i < slist.length && slist.data[i] != element)
+    while (i < list.length && list.data[i] != elem)
         ++i;
-    if (i < slist.length - 1)
+    if (i < list.length - 1)
         return (int16_t) (i + 1);
     else
         return -1;
 }
 
-int16_t getSListPrevElementIndex(SSeList slist, listData element) {
+int16_t getSSListPrevElemIndex(SSList list, listData elem) {
     int16_t i = 0;
-    while (i < slist.length && slist.data[i] != element)
+    while (i < list.length && list.data[i] != elem)
         ++i;
-    if (i > 0 && i < slist.length)
+    if (i > 0 && i < list.length)
         return (int16_t) (i - 1);
     else
         return -1;
 }
 
-int insertSListElemAfterIndex(SSeList* slist, int16_t index, listData element) {
-    if (!slist || index < 1 || index > slist->length + 1 ||
-        slist->length == sListSize)
+int insertSSListElemAfterIndex(SSList* list, int16_t index, listData elem) {
+    if (!list || index < 1 || index > list->length + 1 ||
+        list->length == SSLSize)
         return 0;
     else {
-        for (int16_t i = slist->length; i > index; --i)
-            slist->data[i] = slist->data[i - 1];
-        slist->data[index + 1] = element;
-        ++slist->length;
+        for (int16_t i = list->length; i > index; --i)
+            list->data[i] = list->data[i - 1];
+        list->data[index + 1] = elem;
+        ++list->length;
         return -1;
     }
 }
 
-int deleteSListElemAtIndex(SSeList* slist, int16_t index) {
-    if (!slist || index < 1 || index > slist->length + 1)
+int deleteSSListElemAtIndex(SSList* list, int16_t index) {
+    if (!list || index < 1 || index > list->length + 1)
         return 0;
     else {
-        for (int16_t i = (int16_t) (index - 1); i < slist->length; ++i)
-            slist->data[i] = slist->data[i + 1];
-        --slist->length;
+        for (int16_t i = (int16_t) (index - 1); i < list->length; ++i)
+            list->data[i] = list->data[i + 1];
+        --list->length;
         return -1;
     }
 }
 
+// Dynamic Sequenced List --DSList
+
+int initDSList(DSList* list) {
+    if (!list)
+        return -1;
+    list->data = (listData*) malloc(DSLInitSize * sizeof(listData));
+    if (!list->data)
+        return -1;
+    list->length = 0;
+    list->size = DSLInitSize;
+    return 0;
+}
+
+int destroyDSList(DSList* list) {
+    if (!list)
+        return -1;
+    free(list->data);
+    list->data = NULL;
+    list->length = 0;
+    list->size = 0;
+    return 0;
+}
+
+int clearDSList(DSList* list) {
+    if (!list)
+        return -1;
+    list->length = 0;
+    return 0;
+}
+
+int ifDSListIsEmpty(DSList list) {
+    return (int) !list.length;
+}
+
+
+int16_t getLengthOfDSList(DSList list) {
+    return list.length;
+}
+
+listData getDSListElemAtIndex(DSList list, int16_t index) {
+    if (index >= 1 && index <= list.length)
+        return list.data[index-1];
+    else
+        return -1;
+}
+
+/*
 SLLSpace initSLLSpace() {
     SLLSpace temp;
     temp.availHead = 0;
@@ -172,3 +220,4 @@ listData getElementAtIndex(SLLSpace* space, int16_t head, int16_t index) {
         return 0;
 
 }
+*/
