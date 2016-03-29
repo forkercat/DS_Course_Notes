@@ -2,7 +2,7 @@
 
 ## [定义](/doc/definitions.pdf)
 
-![线性表定义](/img/deflist.png)
+![线性表定义](/img/listdef.png)
 
 ## 基本操作
 
