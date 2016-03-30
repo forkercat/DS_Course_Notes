@@ -30,4 +30,5 @@ before_script:
 script: make
 
 after_script:
+  - clear
   - ./DS_Course_Notes
