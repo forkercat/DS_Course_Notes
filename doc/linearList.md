@@ -308,19 +308,171 @@ int ListDelete(Sqlist &L, int i) {
 ```
 ## [单向无头结点链表](/doc/linearList.md#目录)
 ### 结构定义
-### 初始化表为空表
-### 销毁表
-### 清空表
-### 检查是否为空表
-### 获取表的长度
-### 获取指定下标的元素
-### 获取指定元素的下标
-### 判断元素是否在表中
-### 获取直接前驱
-### 获取直接后继
-### 在指定下标之前插入元素
-### 删除指定下标的元素
+```c++
+typedef char ListData;
 
+typedef struct node {
+    ListData data;
+    struct node* next;
+} ListNode;
+
+typedef ListNode* LinkList;
+```
+### 初始化表为空表
+```c++
+void InitList(LinkList &first) {
+    first = NULL;
+}
+```
+### 销毁表
+```c++
+void DestroyList(LinkList &first) {
+    ListNode *q;
+    while (first) {
+        q = first;
+        first = first->next;
+        free(q);
+    }
+}
+```
+### 清空表
+```c++
+void ClearList(LinkList &first) {
+    ListNode* q;
+    while (first) {
+        q = first;
+        first = first->next;
+        free(q);
+    }
+}
+```
+### 检查是否为空表
+```c++
+int ListEmpty(LinkList first) {
+    return !first;
+}
+```
+### 获取表的长度
+```c++
+int ListLength(LinkList first) {
+    LinkList p;
+    p = first;
+    int count = 0;
+    while (p) {
+        p = p->next;
+        ++count;
+    }
+    return count;
+}
+```
+### 获取指定下标的元素
+```c++
+ListData GetElem(LinkList first, int i) {
+    LinkList p;
+    int j;
+    p = first;
+    j = 1;
+    while (p && (j < i)) {
+        p = p->next;
+        ++j;
+    }
+    if (!p || j > i)
+        return NULL;
+    return p->data;
+}
+```
+### 获取指定元素的下标
+```c++
+LinkList LocateElem(LinkList first, ListData x) {
+    ListNode* p = first;
+    while (p && (p->data != x))
+        p = p->next;
+    return p;
+}
+```
+### 判断元素是否在表中
+```c++
+int IsIn(LinkList first, ListData x) {
+    ListNode* p = first;
+    while (p && (p->data != x))
+        p = p->next;
+    return !(p == NULL);
+}
+```
+### 获取直接前驱
+```c++
+LinkList PriorElem(LinkList first, ListData x) {
+    LinkList p = first;
+    while (p && p->next && (p->next->data != x))
+        p = p->next;
+    if (!p || !p->next)
+        return NULL;
+    return p;
+}
+```
+### 获取直接后继
+```c++
+LinkList NextElem(LinkList first, ListData x) {
+    LinkList p=first;
+    while(p && p→data != x)                            
+        p = p→next;
+    if (!p || !p→next) 
+        return NULL;
+return p→next;                    
+}
+```
+### 在指定下标之前插入元素
+```c++
+int ListInsert (LinkList &first, int i, ListData x) {
+    newnode = (ListNode *) malloc (sizeof(ListNode));
+    newnode→data = x;                                  
+    if (i==1) {                                     
+        newnode→next = first;                
+        first = newnode;
+        return  1; 
+    }  
+    p = first; k = 1;
+    while (p && k < i-1) {
+        p = p→next;
+        k++;
+    }
+    if ( !p || i<1) ) {	
+    printf ( “无效的插入位置!\n” );         
+        free(newnode);
+        return 0;
+    }
+    newnode→next = p→next; 		          
+    p→next = newnode;                  
+    return 1; 
+}
+```
+### 删除指定下标的元素
+```c++
+int ListDelete(LinkList &first, int i) { 
+    if (first && i == 1) {
+        q = first;
+        first = first->next;
+    }
+    else {
+        p = first;
+        k = 1;       
+        while (p && k < i-1) { 
+            p = p→next;
+            k++;
+        }
+        if ( !p  || !(p->next) || i<1 ) { 
+            printf (“无效的删除位置!\n”);
+            return 0;
+        }
+        else {
+            q = p->next;
+            p->next = q->next;
+        }
+    }
+    free (q); 
+    return 1;
+}
+```
 ## [单向链表](/doc/linearList.md#目录)
 ### 结构定义
 ### 初始化表为空表
