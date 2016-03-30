@@ -29,6 +29,9 @@
 ## [静态存储顺序表](/doc/linearList.md#目录)
 
 ### 结构定义
+
+静态顺序表包括长度信息和结构体数组
+
 ```c++
 typedef char ListData;
 
@@ -39,15 +42,19 @@ typedef struct {
     int length;
 } SeqList;
 ```
-
 ### 初始化表
+
+由定义得，长度为0的表就是空表
+
 ```c++
 void InitList (SeqList &L) {                                                         
     L.length = 0;
 }
 ```
-
 ### 销毁表
+
+若是传入引用，引用变量将在程序结束时一起被回收（所以销毁操作没什么意义）
+
 ```c++
 void DestroyList(SeqList &L) {
     L.length = 0;
@@ -60,22 +67,22 @@ void ClearList(Seqlist &L) {
     L.length = 0;
 }
 ```
-
 ### 检查是否为空表
 ```c++
 int ListEmpty(SeqList &L) {
     return !L.length;
 }
 ```
-
 ### 获取表的长度
 ```c++
 int ListLength(SeqList L) {
     return L.length;
 }
 ```
-
 ### 获取指定下标的元素
+
+找到对应数组下标，返回对应元素即可
+
 ```c++
 ListData GetElem(SeqList L, int i) {
     if (i >=1 && i <= L.length) {
@@ -86,8 +93,10 @@ ListData GetElem(SeqList L, int i) {
     }
 }
 ```
-
 ### 获取指定元素的下标
+
+遍历数组，元素与指定元素相同时，返回下标。可能有多返回值，多返回值实现详见代码。
+
 ```c++
 int LocateElem(SeqList L, ListData x) {
     int i = 0;
