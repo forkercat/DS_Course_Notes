@@ -53,7 +53,7 @@ void InitList (SeqList &L) {
 ```
 ### 销毁表
 
-若是传入引用，引用变量将在程序结束时一起被回收（所以销毁操作没什么意义）
+若是传入引用，引用变量将在函数调用结束时一起被销毁（所以销毁操作没什么意义）
 
 ```c++
 void DestroyList(SeqList &L) {
@@ -798,15 +798,73 @@ int ListDelete(SLinkList &Space, int Slink, int i) {
 ```
 ## [双向循环链表](/doc/linearList.md#目录)
 ### 结构定义
+```c++
+typedef int ListData;
+
+typedef struct dnode {
+    ListData data;                          
+    struct dnode *prior, *next;     
+} DblNode;
+typedef DblNode* DblList; 
+```
 ### 初始化表为空表
+```c++
+void InitList(DblList &first) {
+    first = (DblNode*) malloc(sizeof(DblNode));
+    if (!first) {
+    	printf(“存储分配错!\n”);
+    	exit(1);
+    }
+    first->prior = first->next = first;
+}
+```
 ### 销毁表
+```c++
+
+```
 ### 清空表
 ### 检查是否为空表
 ### 获取表的长度
+```c++
+int ListLength(DblList first) {
+    DblNode* p = first->next;
+    int count = 0;
+    while (p != first) {
+    	p = p->next;
+    	count++;
+    }
+    return count;
+}
+```
 ### 获取指定下标的元素
+```c++
+int ListInsert(DblList first, int i, ListData x) {
+    DblNode * p = LocateElem4 ( first, i-1 );
+    if (p == first && i != 1)
+    	return 0;
+    DblNode* q = (DblNode*) malloc(sizeof(DblNode));
+    q->data = x;
+    q->prior = p;
+    q->next = p->next;
+    p->next = q;
+    p->next->prior = q; 
+    return 1;
+}
+```
 ### 获取指定元素的下标
 ### 判断元素是否在表中
 ### 获取直接前驱
 ### 获取直接后继
 ### 在指定下标之前插入元素
 ### 删除指定下标的元素
+```c++
+int ListDelete(DblList first, int i) {
+    DblNode * p = LocateElme4(first, i);
+    if (p == first)
+    	return 0;
+    p->next->prior = p->prior;
+    p->prior->next = p->next;
+    free(p);
+    return 1;
+}
+```
