@@ -3,18 +3,7 @@
 数据结构与算法课的笔记
 
 1. [线性表](/doc/linearList.md#线性表)
-    - [线性表静态顺序存储](/doc/linearList.md#静态存储顺序线性表)
-    - 线性表动态顺序存储
-    - 线性表不带头结点单链表
-    - 线性表带头结点单链表
-    - 线性表带头结点静态链表
-    - 线性表带头结点双向循环链表
-
-2. [栈和队列](/doc/stackQueue.md)
-    - 静态栈
-    - 链栈
-    - 链队列
-    - 循环队列
+2. [栈和队列](/doc/stackQueue.md#栈和队列)
 
 # Implementation
 [![Build Status](https://travis-ci.org/BigPa/DS_Course_Notes.svg?branch=master)](https://travis-ci.org/BigPa/DS_Course_Notes)
@@ -24,8 +13,8 @@ Build & Run on OS X & Linux with GCC & Clang, on Windows with MSVC.
 
 - [x] Static Sequenced List
 - [ ] Dynamic Sequenced List
-- [ ] Linked List without Head Node
-- [ ] Linked List
+- [ ] Singly Linked List without Head Node
+- [ ] Singly Linked List
 - [ ] Static Linked List
 - [ ] Doubly Circular Linked List
 - [ ] Static Stack
