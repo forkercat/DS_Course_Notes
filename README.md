@@ -16,5 +16,7 @@
     - 链队列
     - 循环队列
 
+# Implementation
+[![Build Status](https://travis-ci.org/BigPa/DS_Course_Notes.svg?branch=master)](https://travis-ci.org/BigPa/DS_Course_Notes)
 # License
 [WTFPL](http://www.wtfpl.net/txt/copying/)
