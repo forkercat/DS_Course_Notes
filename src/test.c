@@ -60,11 +60,30 @@ int SSListTest(char** position) {
     clearSSList(&list);
 
     *position = "Get prev & next";
-    insertElemOnSSListAfterIndex(&list, 0, 'g');
+
+    insertElemOnSSListAfterIndex(&list, 0, '!');
+    insertElemOnSSListAfterIndex(&list, 0, 's');
+    insertElemOnSSListAfterIndex(&list, 0, 'u');
+    insertElemOnSSListAfterIndex(&list, 0, 'o');
     insertElemOnSSListAfterIndex(&list, 0, 'i');
-    insertElemOnSSListAfterIndex(&list, 0, 'B');
-    if (getSSListNextElemIndex(list, 'i') != 3 ||
-        getSSListPrevElemIndex(list, 'i') != 1)
+    insertElemOnSSListAfterIndex(&list, 0, 'c');
+    insertElemOnSSListAfterIndex(&list, 0, 'i');
+    insertElemOnSSListAfterIndex(&list, 0, 'l');
+    insertElemOnSSListAfterIndex(&list, 0, 'e');
+    insertElemOnSSListAfterIndex(&list, 0, 'd');
+
+    SSLMultiReVal prev = getSSListPrevElemIndex(list, 'i');
+    SSLMultiReVal next = getSSListNextElemIndex(list, 'i');
+    SSLMultiReVal prevHead = getSSListPrevElemIndex(list, 'd');
+    SSLMultiReVal nextEnd = getSSListNextElemIndex(list, '!');
+    if (prev.returnValue[0] != 3 || prev.returnValue[1] != 5 ||
+        prev.returnValue[2] != 0 || next.returnValue[0] != 5 ||
+        next.returnValue[1] != 7 || next.returnValue[2] != 0)
+        return -1;
+
+    *position = "Get prev & next's edge";
+    if (prevHead.returnValue[0] != -1 || prevHead.returnValue[1] != 0 ||
+        nextEnd.returnValue[0] != -1 || nextEnd.returnValue[1] != 0)
         return -1;
 
     clearSSList(&list);
@@ -95,3 +114,8 @@ int SSListTest(char** position) {
     return 0;
 }
 
+
+int DSListTest(char** position) {
+    TESTMODULE;
+    return 0;
+}

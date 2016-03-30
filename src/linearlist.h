@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <stdbool.h>
 
 typedef char listData;
 
@@ -25,12 +26,17 @@ struct sSLMultiReVal {
     int16_t returnValue[SSLSize];
 };
 
-int initSSList(SSList* list);
+bool initSSList(SSList* list);
 
-// Same as clearSSList
-//int destroySSList(SSList* list);
+/*
 
-int clearSSList(SSList* list);
+SSList variables will be eliminated with whole program
+
+int destroySSList(SSList* list);
+
+ */
+
+bool clearSSList(SSList* list);
 
 int ifSSListIsEmpty(SSList list);
 
@@ -39,18 +45,21 @@ int16_t getLengthOfSSList(SSList list);
 // Index start from 1 to length
 listData getSSListElemAtIndex(SSList list, int16_t index);
 
-// return an array (multi return value) of Indexes which start from 1.
+// Return an array (in structure) of Indexes (multiple return value)
+// which start from 1; results (indexes) ends with 0.
 SSLMultiReVal locateSSListElemIndex(SSList list, listData elem);
 
-int ifElemIsInSSList(SSList list, listData elem);
+bool ifElemIsInSSList(SSList list, listData elem);
 
-int16_t getSSListNextElemIndex(SSList list, listData elem);
+// Multiple return value
+SSLMultiReVal getSSListNextElemIndex(SSList list, listData elem);
 
-int16_t getSSListPrevElemIndex(SSList list, listData elem);
+// Multiple return value
+SSLMultiReVal getSSListPrevElemIndex(SSList list, listData elem);
 
-int insertElemOnSSListAfterIndex(SSList* list, int16_t index, listData elem);
+bool insertElemOnSSListAfterIndex(SSList* list, int16_t index, listData elem);
 
-int deleteElemOnSSListAtIndex(SSList* list, int16_t index);
+bool deleteElemOnSSListAtIndex(SSList* list, int16_t index);
 
 
 // Dynamic Sequenced List --DSList

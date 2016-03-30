@@ -18,3 +18,4 @@ void TestStatus(int (  * test)(char**));
 
 int SSListTest(char** position);
 
+int DSListTest(char** position);
