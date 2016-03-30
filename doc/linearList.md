@@ -3,15 +3,15 @@
 [定义](/doc/definitions.pdf)
 
 ## 目录
-- 基本操作
-- 静态存储顺序表
-- 动态存储顺序表
-- 单向无头结点链表
-- 单向链表
-- 静态链表
-- 双向循环链表
+- [基本操作](/doc/linearList.md#基本操作)
+- [静态存储顺序表](/doc/linearList.md#静态存储顺序表)
+- [动态存储顺序表](/doc/linearList.md#动态存储顺序表)
+- [单向无头结点链表](/doc/linearList.md#单向无头结点链表)
+- [单向链表](/doc/linearList.md#单向链表)
+- [静态链表](/doc/linearList.md#静态链表)
+- [双向循环链表](/doc/linearList.md#双向循环链表)
 
-## 基本操作
+## [基本操作](/doc/linearList.md#目录)
 
 - 初始化表为空表
 - 销毁表
@@ -26,7 +26,7 @@
 - 在指定下标之前插入元素
 - 删除指定下标的元素
 
-## 静态存储顺序表
+## [静态存储顺序表](/doc/linearList.md#目录)
 
 ### 结构定义
 ```c++
@@ -162,7 +162,7 @@ int ListDelete(SeqList &L, int i) {
     return 1;
 }
 ```
-## 动态存储顺序表
+## [动态存储顺序表](/doc/linearList.md#目录)
 
 ### 结构定义
 ```c++
@@ -306,7 +306,7 @@ int ListDelete(Sqlist &L, int i) {
     return 1;
 }
 ```
-## 单向无头结点链表
+## [单向无头结点链表](/doc/linearList.md#目录)
 ### 结构定义
 ### 初始化表为空表
 ### 销毁表
@@ -320,7 +320,8 @@ int ListDelete(Sqlist &L, int i) {
 ### 获取直接后继
 ### 在指定下标之前插入元素
 ### 删除指定下标的元素
-## 单向链表
+
+## [单向链表](/doc/linearList.md#目录)
 ### 结构定义
 ### 初始化表为空表
 ### 销毁表
@@ -334,7 +335,8 @@ int ListDelete(Sqlist &L, int i) {
 ### 获取直接后继
 ### 在指定下标之前插入元素
 ### 删除指定下标的元素
-## 静态链表
+
+## [静态链表](/doc/linearList.md#目录)
 ### 结构定义
 ### 初始化表为空表
 ### 销毁表
@@ -348,7 +350,8 @@ int ListDelete(Sqlist &L, int i) {
 ### 获取直接后继
 ### 在指定下标之前插入元素
 ### 删除指定下标的元素
-## 双向循环链表
+
+## [双向循环链表](/doc/linearList.md#目录)
 ### 结构定义
 ### 初始化表为空表
 ### 销毁表
