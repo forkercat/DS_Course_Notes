@@ -16,4 +16,5 @@ before_build:
     - cmake -G "Visual Studio 14 2015 Win64"
 
 after_build:
-    - Release\DS_Course_Notes.exe
+    - cd Release
+    - DS_Course_Notes.exe
