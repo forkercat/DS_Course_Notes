@@ -18,5 +18,9 @@
 
 # Implementation
 [![Build Status](https://travis-ci.org/BigPa/DS_Course_Notes.svg?branch=master)](https://travis-ci.org/BigPa/DS_Course_Notes)
+[![Build status](https://ci.appveyor.com/api/projects/status/f3c7txen2jte9k18?svg=true)](https://ci.appveyor.com/project/BigPa/ds-course-notes)
+
+Build & Run on OS X & Linux with GCC & Clang, on Windows with MSVC.
+
 # License
 [WTFPL](http://www.wtfpl.net/txt/copying/)
