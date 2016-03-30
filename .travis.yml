@@ -30,4 +30,4 @@ before_script:
 script: make
 
 after_script:
-  - ./build/DS_Course_Notes
+  - ./DS_Course_Notes
