@@ -3,7 +3,7 @@ branches:
     only:
         - master
 
-os: Visual Studio 2015
+#os: Visual Studio 2015
    
 # clone directory
 clone_folder: c:\Projects\DSN
@@ -15,7 +15,7 @@ build:
 before_build:
     - echo Running cmake...
     - cd c:\projects\DSN
-    - cmake -G "Visual Studio 2015 Win64"
+    - cmake -G "Visual Studio 14 2015 Win64"
 
 after_build:
     - \release\DS_Course_Notes.exe
