@@ -117,5 +117,12 @@ int SSListTest(char** position) {
 
 int DSListTest(char** position) {
     TESTMODULE;
+    *position = "Init";
+    DSList list;
+    initDSList(&list);
+    if (!list.data || list.length != 0 || list.size != DSLInitSize)
+        return -1;
+
+
     return 0;
 }
