@@ -856,6 +856,20 @@ int ListInsert(DblList first, int i, ListData x) {
 ### 获取直接前驱
 ### 获取直接后继
 ### 在指定下标之前插入元素
+```c++
+int ListInsert (DblList first,  int i, ListData x) {
+    DblNode* p = LocateElem(first, i - 1);   
+    if (p == first && i != 1)
+    	return 0;
+    DblNode* q = (DblNode*) malloc(sizeof(DblNode));
+    q->data = x;
+    q->prior = p;
+    q->next = p->next;
+    p->next = q;
+    p->next->prior = q; 
+    return 1;
+}
+```
 ### 删除指定下标的元素
 ```c++
 int ListDelete(DblList first, int i) {
