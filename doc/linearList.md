@@ -30,7 +30,7 @@
 
 ### 结构定义
 
-静态顺序表包括长度信息和结构体数组
+静态顺序表包括长度信息和结构体数组（数组大小固定，故曰静态存储）
 
 ```c++
 typedef char ListData;
@@ -85,7 +85,7 @@ int ListLength(SeqList L) {
 
 ```c++
 ListData GetElem(SeqList L, int i) {
-    if (i >=1 && i <= L.length) {
+    if (i >= 1 && i <= L.length) {
         return L.data[i - 1];
     }
     else {
@@ -100,7 +100,8 @@ ListData GetElem(SeqList L, int i) {
 ```c++
 int LocateElem(SeqList L, ListData x) {
     int i = 0;
-    while (i < L.length && L.data[i] != x) i++; // locating
+    while (i < L.length && L.data[i] != x) 
+    	i++; // locating
     if (i < L.length)
         return i;
     else
@@ -181,7 +182,7 @@ tyoedef char ListData
 #define LISTINCREMENT 5
 
 typedef struct {
-    ListData *data;
+    ListData* data;
     int length;
     int listsize;
 } SqList;
@@ -189,7 +190,7 @@ typedef struct {
 ### 初始化表为空表
 ```c++
 int InitList(SqList &L) {
-    L.data = (ListData *)malloc(LIST_INIT_SIZE * sizeof(ListData));
+    L.data = (ListData*) malloc(LIST_INIT_SIZE * sizeof(ListData));
 
     if (!L.data)
         exit(0);
