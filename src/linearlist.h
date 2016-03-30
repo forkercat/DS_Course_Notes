@@ -27,7 +27,8 @@ struct sSLMultiReVal {
 
 int initSSList(SSList* list);
 
-int destroySSList(SSList* list);
+// Same as clearSSList
+//int destroySSList(SSList* list);
 
 int clearSSList(SSList* list);
 
@@ -47,7 +48,7 @@ int16_t getSSListNextElemIndex(SSList list, listData elem);
 
 int16_t getSSListPrevElemIndex(SSList list, listData elem);
 
-int insertElemOnSSListBeforeIndex(SSList* list, int16_t index, listData elem);
+int insertElemOnSSListAfterIndex(SSList* list, int16_t index, listData elem);
 
 int deleteElemOnSSListAtIndex(SSList* list, int16_t index);
 

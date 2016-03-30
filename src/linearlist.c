@@ -9,12 +9,12 @@ int initSSList(SSList* list) {
     return 0;
 }
 
-int destroySSList(SSList* list) {
-    if (!list)
-        return -1;
-    list->length = 0;
-    return 0;
-}
+//int destroySSList(SSList* list) {
+//    if (!list)
+//        return -1;
+//    list->length = 0;
+//    return 0;
+//}
 
 int clearSSList(SSList* list) {
     if (!list)
@@ -82,14 +82,14 @@ int16_t getSSListPrevElemIndex(SSList list, listData elem) {
         return -1;
 }
 
-int insertElemOnSSListBeforeIndex(SSList* list, int16_t index, listData elem) {
-    if (!list || index < 1 || index > list->length ||
+int insertElemOnSSListAfterIndex(SSList* list, int16_t index, listData elem) {
+    if (!list || index < 0 || index > list->length ||
         list->length == SSLSize)
         return 0;
     else {
-        for (int16_t i = list->length; i > index; --i)
+        for (int16_t i = (int16_t) (list->length - 1); i > index; --i)
             list->data[i] = list->data[i - 1];
-        list->data[index + 1] = elem;
+        list->data[index] = elem;
         ++list->length;
         return -1;
     }
@@ -218,7 +218,7 @@ int deleteElemOnDSListAtIndex(DSList* list, int16_t index) {
     if (!list || index < 1 || index > list->length)
         return -1;
     for (int16_t i = (int16_t) (index - 1); i < list->length - 1; ++i)
-        list->data[i] = list->data[i+1];
+        list->data[i] = list->data[i + 1];
     --list->length;
     return 0;
 }
