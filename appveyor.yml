@@ -1,0 +1,22 @@
+# branches to build
+branches:
+    only:
+        - master
+   
+# clone directory
+clone_folder: c:\Projects\DSN
+
+configuration: Release
+
+build:
+    project: DS_Course_Notes.sln
+
+# scripts to run before build
+before_build:
+    - echo Running cmake...
+    - cd c:\projects\DSN
+    - cmake -G "Visual Studio 14 2015 Win64"
+
+after_build:
+    - cd Release
+    - DS_Course_Notes.exe
