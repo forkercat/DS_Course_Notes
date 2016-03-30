@@ -612,7 +612,7 @@ int ListDelete(LinkList first, int i) {
 	p = first; k = 0;
     while (p && k++ < i - 1)
         p = p->next;
- 	if (!p || !(p→next) || i < 1) 
+ 	if (!p || !(p->next) || i < 1) 
 	    return 0;
    	q = p->next;	 
 	p->next = q->next;
@@ -622,8 +622,50 @@ int ListDelete(LinkList first, int i) {
 ```
 ## [静态链表](/doc/linearList.md#目录)
 ### 结构定义
+```c++
+typedef char ListData;
+const int MaxSize = 100;
+
+typedef struct node {
+    ListData  data;
+    int link;
+} SNode;
+
+typedef struct {
+    SNode  Nodes[MaxSize];
+    int newptr;
+} SLinkList;
+```
+### 表空间初始化
+```c++
+void InitSpace(SLinkList &Space) {
+    Space.newptr = 0;
+    for (int i = 0; i < MaxSize - 1; i++)
+    Space.Nodes[i].link = i + 1;
+    Space.Nodes[MaxSize - 1].link = -1;
+}
+```
 ### 初始化表为空表
+```c++
+void InitList(SLinkList &Space，int &Slink) {
+    if (Space.newptr != -1) {
+    	Slink = Space.newptr;
+    	Space.newptr = Space.Nodes[Space.newptr].link;
+    }
+    Space.Nodes[Slink].link=-1;
+}
+```
 ### 销毁表
+```c++
+void DestroyList(SLinkList &Space, int &Slink) {
+    q = Slink;
+    while (Space.Nodes[Slink].link != -1)
+    	Slink = Space.Nodes[Slink].link;
+    Space.Nodes[Slink].link = Space.newptr;
+    Space.newptr = q;
+    Slink = -1;
+}
+```
 ### 清空表
 ### 检查是否为空表
 ### 获取表的长度
