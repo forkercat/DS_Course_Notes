@@ -667,16 +667,126 @@ void DestroyList(SLinkList &Space, int &Slink) {
 }
 ```
 ### 清空表
+```c++
+void DestroyList(SLinkList &Space，int Slink) {
+    p = Space.Nodes[Slink].link;
+    while (Space.Nodes[p].link != -1)
+    	p=Space.Nodes[p].link;
+    Space.Nodes[p].link=Space.newptr;
+    Space.newptr= Space.Nodes[Slink].link;
+    Space.Nodes[Slink].link=-1;
+}
+```
 ### 检查是否为空表
+```c++
+int ListEmpty(SLinkList &Space, int Slink) {
+    return (Space.Nodes[Slink].link == -1);
+}
+```
 ### 获取表的长度
+```c++
+int ListLength(SLinkList &Space, int  Slink) {
+    int count = 0; 
+    q = Slink;
+    while (Space.Nodes[q].link != -1) {
+    	q = Space.Nodes[q].link;
+    	count++;
+    }
+    return count;   
+}
+```
 ### 获取指定下标的元素
+```c++
+ListData GetElem(SLinkList  &Space, int  Slink, int i) {
+    int j = 0;  
+    q = Slink;
+    while (q != -1 && j < i) {
+    	q = Space.Nodes[q].link;
+    	j++;
+    }
+    if ( p == -1 || j > i) 
+    	return  NULL;
+    return Space.Nodes[q].data;
+}
+```
 ### 获取指定元素的下标
+```c++
+int LocateElem(SLinkList &Space, int Slink, ListData x) {
+    q=Space.Nodes[Slink].link;
+    while (q != -1 && Space.Nodes[q].data != x)
+    	q=Space.Nodes[q].link; 
+    return q;
+}
+```
 ### 判断元素是否在表中
+```c++
+int IsIn(SLinkList &Space, int Slink, ListData x) {
+    q=Space.Nodes[Slink].link;
+    while (q != -1 && Space.Nodes[q].data != x)
+    	q = Space.Nodes[q].link;
+    return !(q == -1);
+}
+```
 ### 获取直接前驱
+```c++
+LinkList PirorElem(SLinkList &Space, int Slink, ListData x) {
+    q=Space.Nodes[Slink].link;
+    while (q != -1 && Space.Nodes[q].link != -1 && Space.Nodes[Space.Nodes[q].link].data != x)
+    	q=Space.Nodes[q].link;
+    if (q == -1 || Space.Nodes[q].link == -1)
+    	return -1;
+    return q;           
+}
+```
 ### 获取直接后继
+```c++
+LinkList NextElem(SLinkList &Space, int Slink, ListData x) {
+    q=Space.Nodes[Slink].link;
+    while (q != -1 && Space.Nodes[q].data != x)
+    	q=Space.Nodes[q].link; 
+    if (q == -1 || Space.Nodes[q].link == -1)
+    	return -1;
+    return Space.Nodes[q].link;
+}
+```
 ### 在指定下标之前插入元素
+```c++
+int ListInsert(SLinkList &Space, int Slink, int i, ListData x) {
+    int j = 0; q = Slink;
+    while (q!=-1&& j<i-1) {
+    	q = Space.Nodes[q].link;
+    	j++;
+    }
+    if (q == -1 || i < 1)
+    	return 0;
+    if (Space.newptr != -1) {
+    	p = Space.newptr;
+        Space.newptr = Space.Nodes[Space.newptr].link;
+    }
+    else
+    	return 0;
+    Space.Nodes[p].data = x;
+    Space.Nodes[p].link = Space.Nodes[q].link;
+    Space.Nodes[q].link = p;
+    return 1;
+}
+```
 ### 删除指定下标的元素
-
+```c++
+int ListDelete(SLinkList &Space, int Slink, int i) {
+    int p =Slink;
+    int j=0;
+    while (p != -1 && j++ < i - 1)
+    	p = Space.Nodes[p].link;
+    if (p == -1 || Space.Nodes[p].link == -1 || i < 1)
+    	return 0;
+    int q = Space.Nodes[p].link;
+    Space.Nodes[p].link = Space.Nodes[q].link;
+    Space.Nodes[q].link = Space.newptr;
+    Space.newptr = q;
+    return 1;
+}
+```
 ## [双向循环链表](/doc/linearList.md#目录)
 ### 结构定义
 ### 初始化表为空表
