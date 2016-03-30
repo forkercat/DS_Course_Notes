@@ -2,12 +2,12 @@
 
 #include <stdint.h>
 #include <stddef.h>
-#include <memory.h>
 #include <stdlib.h>
-
-// Static Sequenced List --SSList
+#include <limits.h>
 
 typedef char listData;
+
+// Static Sequenced List --SSList
 
 #define SSLSize 9999
 
@@ -39,7 +39,7 @@ int16_t getLengthOfSSList(SSList list);
 listData getSSListElemAtIndex(SSList list, int16_t index);
 
 // return an array (multi return value) of Indexes which start from 1.
-SSLMultiReVal locateSSListElem(SSList list, listData elem);
+SSLMultiReVal locateSSListElemIndex(SSList list, listData elem);
 
 int ifElemIsInSSList(SSList list, listData elem);
 
@@ -47,9 +47,10 @@ int16_t getSSListNextElemIndex(SSList list, listData elem);
 
 int16_t getSSListPrevElemIndex(SSList list, listData elem);
 
-int insertSSListElemAfterIndex(SSList* list, int16_t index, listData elem);
+int insertElemOnSSListBeforeIndex(SSList* list, int16_t index, listData elem);
 
-int deleteSSListElemAtIndex(SSList* list, int16_t index);
+int deleteElemOnSSListAtIndex(SSList* list, int16_t index);
+
 
 // Dynamic Sequenced List --DSList
 
@@ -58,10 +59,16 @@ int deleteSSListElemAtIndex(SSList* list, int16_t index);
 
 typedef struct dSList DSList;
 
+typedef struct dSLMultiReVal DSLMultiReVal;
+
 struct dSList {
     listData* data;
     int16_t length;
     int16_t size;
+};
+
+struct dSLMultiReVal {
+    int16_t returnValue[INT16_MAX];
 };
 
 int initDSList(DSList* list);
@@ -73,6 +80,29 @@ int clearDSList(DSList* list);
 int ifDSListIsEmpty(DSList list);
 
 int16_t getLengthOfDSList(DSList list);
+
+listData getDSListElemAtIndex(DSList list, int16_t index);
+
+DSLMultiReVal locateDSListElemIndex(DSList list, listData elem);
+
+int ifElemIsInDSList(DSList list, listData elem);
+
+int16_t getDSListNextElemIndex(DSList list, listData elem);
+
+int16_t getDSListPrevElemIndex(DSList list, listData elem);
+
+int insertElemOnDSListBeforeIndex(DSList* list, int16_t index, listData elem);
+
+int deleteElemOnDSListAtIndex(DSList* list, int16_t index);
+
+// Linked List without Head Node --LList
+
+typedef struct lLNode LLNode;
+
+struct lLnode {
+    listData data;
+    LLNode* next;
+};
 
 // Static Linked List with Header --SLListH
 
@@ -104,3 +134,4 @@ int destroySLListH(SLLSpace* space, int16_t* head);
 int clearSLListH(SLLSpace* space, int16_t* head);
 
 int ifSLListHIsEmpty(SLLSpace* space, int16_t* head);
+

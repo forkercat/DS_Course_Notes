@@ -1,7 +1,7 @@
-#include <stdio.h>
 #include "linearlist.h"
+#include "test.h"
 
 int main(void) {
-    printf("Hello, World!\n");
+    TestStatus(SSListTest);
     return 0;
 }
