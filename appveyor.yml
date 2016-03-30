@@ -6,6 +6,8 @@ branches:
 # clone directory
 clone_folder: c:\Projects\DSN
 
+configuration: Release
+
 build:
     project: DS_Course_Notes.sln
 
