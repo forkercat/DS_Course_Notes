@@ -14,18 +14,18 @@
   - 判断栈是否为满栈
 - 队列
 
-# 顺序栈
+# 静态顺序栈
 ## 结构定义
 ```c++
-#define STACK_INIT_SIZE  100；           
-#define STACKINCREMENT  10；             
+#define STACK_INIT_SIZE 100;
+#define STACKINCREMENT 10;             
 
 typedef char StackData;
 
 typedef struct {	                       
-    StackData* base; 
- 	  StackData* top;
-	  int stacksize;                                   
+    StackData* base;
+    StackData* top;
+    int stacksize;
 } SeqStack;
 ```
 ## 初始化栈
@@ -40,7 +40,18 @@ Return  OK;
 ```
 ## 压栈
 ```c++
-
+Status Push(SeqStack *S, StackData x) {
+    if (StackFull(S)) {
+    	S->base =(StackData*) realloc(S->base,
+    			      (S->stacksize + STACKINCREMENT) * sizeof(StackData));
+    	if(!S->base)
+    	    exit(overflow);
+    	S->top = S->base + S->stacksize;
+    	S->stacksize += STACKINCREMENT;
+    }
+    *(S->top++) = x;
+    return ok;
+}
 ```
 ## 出栈
 ```c++
