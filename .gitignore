@@ -1,5 +1,7 @@
 ### C template
 
+# extra
+code.c
 # IDE files
 .idea/*
 *.xcodeproj

@@ -12,55 +12,44 @@ typedef char listData;
 
 #define SSLSize 9999
 
-typedef struct sSList SSList;
-
-// Multiple return value
-typedef struct sSLMultiReVal SSLMultiReVal;
-
-struct sSList {
-    int16_t length;
+typedef struct {
     listData data[SSLSize];
-};
-
-struct sSLMultiReVal {
-    int16_t returnValue[SSLSize];
-};
-
-bool initSSList(SSList* list);
-
-/*
-
-SSList variables will be eliminated with whole program
-
-int destroySSList(SSList* list);
-
- */
-
-bool clearSSList(SSList* list);
-
-int ifSSListIsEmpty(SSList list);
-
-int16_t getLengthOfSSList(SSList list);
-
-// Index start from 1 to length
-listData getSSListElemAtIndex(SSList list, int16_t index);
-
-// Return an array (in structure) of Indexes (multiple return value)
-// which start from 1; results (indexes) ends with 0.
-SSLMultiReVal locateSSListElemIndex(SSList list, listData elem);
-
-bool ifElemIsInSSList(SSList list, listData elem);
+    int length;
+} SSList;
 
 // Multiple return value
-SSLMultiReVal getSSListNextElemIndex(SSList list, listData elem);
+typedef struct {
+    int length;
+    int returnValue[SSLSize];
+} SSLMultiReVal;
 
-// Multiple return value
-SSLMultiReVal getSSListPrevElemIndex(SSList list, listData elem);
+typedef struct {
 
-bool insertElemOnSSListAfterIndex(SSList* list, int16_t index, listData elem);
+    bool (* const clear)(SSList*);
 
-bool deleteElemOnSSListAtIndex(SSList* list, int16_t index);
+    bool (* const empty)(SSList);
 
+    int (* const getLength)(SSList);
+
+    listData (* const getElemAtIndex)(SSList, int);
+
+    SSLMultiReVal (*const locateElem)(SSList, listData);
+
+    bool (* const isIn)(SSList, listData);
+
+    // Get successor
+    SSList (* const getSucc)(SSList, listData);
+
+    // Get predecessor
+    SSList (* const getPred)(SSList, listData);
+
+    bool (*const insertElemAfterIndex)(SSList*, int, listData);
+
+    bool (*const deleteElemAtIndex)(SSList*, int);
+
+} SinglySequencedList;
+
+extern SinglySequencedList const SSL;
 
 // Dynamic Sequenced List --DSList
 

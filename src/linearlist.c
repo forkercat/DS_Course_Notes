@@ -2,58 +2,45 @@
 
 // Static Sequenced List --SSList
 
-bool initSSList(SSList* list) {
+static bool clearSSList(SSList* list) {
     if (!list)
         return false;
     list->length = 0;
     return true;
 }
 
-/*
-
-int destroySSList(SSList* list) {
-    if (!list)
-        return -1;
-    list->length = 0;
-    return 0;
-}
-
- */
-
-bool clearSSList(SSList* list) {
-    if (!list)
+static bool ifSSListIsEmpty(SSList list) {
+    if (list.length)
         return false;
-    list->length = 0;
-    return true;
+    else
+        return true;
 }
 
-int ifSSListIsEmpty(SSList list) {
-    return !list.length;
-}
-
-int16_t getLengthOfSSList(SSList list) {
+static int getLengthOfSSList(SSList list) {
     return list.length;
 }
 
-listData getSSListElemAtIndex(SSList list, int16_t index) {
+static listData getSSListElemAtIndex(SSList list, int index) {
     if (index >= 1 && index <= list.length)
         return list.data[index - 1];
     else
-        return -1;
+        return '\0';
 }
 
-SSLMultiReVal locateSSListElemIndex(SSList list, listData elem) {
+static SSLMultiReVal locateSSListElemIndex(SSList list, listData elem) {
     SSLMultiReVal result = {0};
     int16_t counter = 0;
     for (int i = 0; i < list.length; ++i) {
-        if (list.data[i] == elem)
+        if (list.data[i] == elem) {
             result.returnValue[counter++] = (int16_t) (i + 1);
+            result.length++;
+        }
     }
     return result;
 }
 
-bool ifElemIsInSSList(SSList list, listData elem) {
-    int16_t i = 0;
+static bool ifElemIsInSSList(SSList list, listData elem) {
+    int i = 0;
     bool found = false;
     while (i < list.length && !found) {
         if (list.data[i] != elem)
@@ -64,40 +51,13 @@ bool ifElemIsInSSList(SSList list, listData elem) {
     return found;
 }
 
-SSLMultiReVal getSSListNextElemIndex(SSList list, listData elem) {
-    SSLMultiReVal result = {0};
-    int16_t counter = 0;
-    for (int16_t i = 0; i < list.length; ++i) {
-        if (list.data[i] == elem) {
-            if (i != list.length - 1)
-                result.returnValue[counter++] = (int16_t) (i + 2);
-            else
-                result.returnValue[counter++] = -1;
-        }
-    }
-    return result;
-}
-
-SSLMultiReVal getSSListPrevElemIndex(SSList list, listData elem) {
-    SSLMultiReVal result = {0};
-    int16_t counter = 0;
-    for (int16_t i = 0; i < list.length; ++i) {
-        if (list.data[i] == elem) {
-            if (i != 0)
-                result.returnValue[counter++] = i;
-            else
-                result.returnValue[counter++] = -1;
-        }
-    }
-    return result;
-}
-
-bool insertElemOnSSListAfterIndex(SSList* list, int16_t index, listData elem) {
+static bool insertElemOnSSListAfterIndex(SSList* list, int index,
+                                         listData elem) {
     if (!list || index < 0 || index > list->length ||
         list->length == SSLSize)
         return false;
     else {
-        for (int16_t i = list->length; i > index; --i)
+        for (int i = list->length; i > index; --i)
             list->data[i] = list->data[i - 1];
         list->data[index] = elem;
         ++list->length;
@@ -105,16 +65,59 @@ bool insertElemOnSSListAfterIndex(SSList* list, int16_t index, listData elem) {
     }
 }
 
-bool deleteElemOnSSListAtIndex(SSList* list, int16_t index) {
+static bool deleteElemOnSSListAtIndex(SSList* list, int index) {
     if (!list || index < 1 || index > list->length)
         return false;
     else {
-        for (int16_t i = (int16_t) (index - 1); i < list->length; ++i)
+        for (int i = index - 1; i < list->length; ++i)
             list->data[i] = list->data[i + 1];
         --list->length;
         return true;
     }
 }
+
+static SSList getSSListNextElem(SSList list, listData elem) {
+    SSList result;
+    int counter = 0;
+    SSL.clear(&result);
+    for (int i = 0; i < list.length; ++i) {
+        if (list.data[i] == elem) {
+            if (i != list.length - 1)
+                SSL.insertElemAfterIndex(&result, counter++, list.data[i + 1]);
+            else
+                SSL.insertElemAfterIndex(&result, counter++, '\0');
+        }
+    }
+    return result;
+}
+
+static SSList getSSListPrevElem(SSList list, listData elem) {
+    SSList result;
+    int counter = 0;
+    SSL.clear(&result);
+    for (int i = 0; i < list.length; ++i) {
+        if (list.data[i] == elem) {
+            if (i != 0)
+                SSL.insertElemAfterIndex(&result, counter++, list.data[i - 1]);
+            else
+                SSL.insertElemAfterIndex(&result, counter++, '\0');
+        }
+    }
+    return result;
+}
+
+SinglySequencedList const SSL = {
+        clearSSList,
+        ifSSListIsEmpty,
+        getLengthOfSSList,
+        getSSListElemAtIndex,
+        locateSSListElemIndex,
+        ifElemIsInSSList,
+        getSSListNextElem,
+        getSSListPrevElem,
+        insertElemOnSSListAfterIndex,
+        deleteElemOnSSListAtIndex
+};
 
 // Still in Progress
 
