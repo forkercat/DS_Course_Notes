@@ -31,3 +31,6 @@ script: make
 
 after_script:
   - ./DS_Course_Notes
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
