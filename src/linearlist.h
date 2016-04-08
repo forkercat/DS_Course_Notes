@@ -24,7 +24,6 @@ typedef struct {
 } SSLMultiReVal;
 
 typedef struct {
-
     bool (* const clear)(SSList*);
 
     bool (* const empty)(SSList);
@@ -33,7 +32,7 @@ typedef struct {
 
     listData (* const getElemAtIndex)(SSList, int);
 
-    SSLMultiReVal (*const locateElem)(SSList, listData);
+    SSLMultiReVal (* const locateElem)(SSList, listData);
 
     bool (* const isIn)(SSList, listData);
 
@@ -43,10 +42,9 @@ typedef struct {
     // Get predecessor
     SSList (* const getPred)(SSList, listData);
 
-    bool (*const insertElemAfterIndex)(SSList*, int, listData);
+    bool (* const insertElemAfterIndex)(SSList*, int, listData);
 
-    bool (*const deleteElemAtIndex)(SSList*, int);
-
+    bool (* const deleteElemAtIndex)(SSList*, int);
 } SinglySequencedList;
 
 extern SinglySequencedList const SSL;

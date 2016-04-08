@@ -80,6 +80,16 @@ int SSListTest(char** position) {
     if (!SSL.empty(list))
         return -1;
 
+    *position = "Overflow insert";
+    int counter = 0;
+    for (int i = 0; i < SSLSize * 2; ++i) {
+        if (!SSL.insertElemAfterIndex(&list, 0, 'X'))
+            break;
+        ++counter;
+    }
+    if (counter != SSLSize)
+        return -1;
+
     return 0;
 }
 
