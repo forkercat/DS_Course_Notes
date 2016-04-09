@@ -18,3 +18,32 @@ Implementation in ANSI C
 - [ ] Circular Queue
 
 ## Table of contents
+
+1. Linear List
+
+## Functions
+
+### Linear List
+
+#### `new`
+
+- To (create and) initialize a linear list object
+- Parameter(s): **Pointer** to the object
+- Return value: **Boolean value** of "Object creation complete"
+- Availibility:
+  - Dynamic Sequenced List
+
+#### `clear`
+- To clear the content of linear list
+- Parameter(s): **Pointer** to the object
+- Return value: **Boolean value** of "Content clear complete"
+- Availibility:
+  - Static Sequenced List
+  - Dynamic Sequenced List
+
+#### `delete`
+- To destroy (eliminate) a linear list object
+- Parameter(s): **Pointer** to the object
+- Return value: **Boolean Value** of "Elemination complete"
+- Availibility:
+  - Dynamic Sequenced List
