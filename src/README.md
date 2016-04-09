@@ -35,7 +35,7 @@ Implementation in ANSI C
 #### `Alloc`
 
 - Allocate memory space, declare reference counter & assign to `1`
-- No Parameter
+- Parameter(s): The memory size that user want to allocate
 - Return value: A void **pointer** to the memory space
 
 #### `Retain`
