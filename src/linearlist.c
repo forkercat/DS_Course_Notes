@@ -119,189 +119,153 @@ SinglySequencedList const SSL = {
         deleteElemOnSSListAtIndex
 };
 
-// Still in Progress
-
 // Dynamic Sequenced List --DSList
 
-int initDSList(DSList* list) {
+static bool initDSList(DSList* list) {
     if (!list)
-        return -1;
-    list->data = (listData*) malloc(DSLInitSize * sizeof(listData));
+        return false;
+    list->data = (listData*) calloc(DSLInitSize, sizeof(listData));
     if (!list->data)
-        return -1;
+        return false;
     list->length = 0;
     list->size = DSLInitSize;
-    return 0;
+    return true;
 }
 
-int destroyDSList(DSList* list) {
+static bool destroyDSList(DSList* list) {
     if (!list)
-        return -1;
+        return false;
     free(list->data);
     list->data = NULL;
     list->length = 0;
     list->size = 0;
-    return 0;
+    return true;
 }
 
-int clearDSList(DSList* list) {
+static bool clearDSList(DSList* list) {
     if (!list)
-        return -1;
+        return false;
     list->length = 0;
-    return 0;
+    return true;
 }
 
-int ifDSListIsEmpty(DSList list) {
-    return (int) !list.length;
+static bool ifDSListIsEmpty(DSList list) {
+    if (!list.length)
+        return true;
+    else
+        return false;
 }
 
-int16_t getLengthOfDSList(DSList list) {
+static int getLengthOfDSList(DSList list) {
     return list.length;
 }
 
-listData getDSListElemAtIndex(DSList list, int16_t index) {
+static listData getDSListElemAtIndex(DSList list, int index) {
     if (index >= 1 && index <= list.length)
         return list.data[index - 1];
     else
-        return -1;
+        return '\0';
 }
 
-DSLMultiReVal locateDSListElemIndex(DSList list, listData elem) {
+static bool ifElemIsInDSList(DSList list, listData elem) {
+    int16_t i = 0;
+    bool found = false;
+    while (i < list.length && !found) {
+        if (list.data[i] != elem)
+            ++i;
+        else
+            found = true;
+    }
+    return found;
+}
+
+static DSLMultiReVal locateDSListElemIndex(DSList list, listData elem) {
     DSLMultiReVal returnValue = {0};
-    int16_t counter = 0;
-    for (int16_t i = 0; i < list.length; ++i) {
+    returnValue.length = 0;
+    for (int i = 0; i < list.length; ++i) {
         if (list.data[i] == elem) {
-            returnValue.returnValue[counter] = (int16_t) (i + 1);
-            ++counter;
+            returnValue.returnValue[returnValue.length++] = i + 1;
         }
     }
     return returnValue;
 }
 
-
-int ifElemIsInDSList(DSList list, listData elem) {
-    int16_t i = 0;
-    int found = 0;
-    while (i < list.length && !found) {
-        if (list.data[i] != elem)
-            ++i;
-        else
-            found = 1;
-    }
-    return found;
-}
-
-int16_t getDSListNextElemIndex(DSList list, listData elem) {
-    int16_t i = 0;
-    while (i < list.length && list.data[i] != elem)
-        ++i;
-    if (i < list.length - 1)
-        return (int16_t) (i + 2);
-    else
-        return -1;
-}
-
-int16_t getDSListPrevElemIndex(DSList list, listData elem) {
-    int16_t i = 0;
-    while (i < list.length && list.data[i] != elem)
-        ++i;
-    if (i > 0)
-        return i;
-    else
-        return -1;
-}
-
-int insertElemOnDSListBeforeIndex(DSList* list, int16_t index, listData elem) {
-    if (!list || index < 1 || index > list->length)
-        return -1;
+static bool insertElemOnDSListAfterIndex(DSList* list, int index,
+                                         listData elem) {
+    if (!list || index < 0 || index > list->length)
+        return false;
     if (list->length == list->size) {
-        listData* newdata = (listData*) realloc(list->data,
+        listData* newData = (listData*) realloc(list->data,
                                                 (list->size + DSLAddSize) *
                                                 sizeof(listData));
-        if (!newdata)
-            return -1;
-        list->data = newdata;
+        if (!newData)
+            return false;
+        list->data = newData;
         list->size += DSLAddSize;
     }
-    for (int16_t i = list->length; i > index; --i)
+    for (int i = list->length; i > index; --i)
         list->data[i] = list->data[i - 1];
-    list->data[index - 1] = elem;
-    return 0;
+    list->data[index] = elem;
+    ++list->length;
+    return true;
 }
 
-int deleteElemOnDSListAtIndex(DSList* list, int16_t index) {
-    if (!list || index < 1 || index > list->length)
-        return -1;
-    for (int16_t i = (int16_t) (index - 1); i < list->length - 1; ++i)
-        list->data[i] = list->data[i + 1];
-    --list->length;
-    return 0;
-}
-
-/*
-SLLSpace initSLLSpace() {
-    SLLSpace temp;
-    temp.availHead = 0;
-    for (int16_t i = 0; i < SLLSize - 1; ++i)
-        temp.nodes[i].next = (int16_t) (i + 1);
-    temp.nodes[SLLSize - 1].next = -1;
+static DSList getDSListPrevElem(DSList list, listData elem) {
+    DSList temp;
+    if (!DSL.new(&temp)) {
+        temp.length = -1;
+        return temp;
+    }
+    int i = 0;
+    while (i < list.length && list.data[i] != elem)
+        ++i;
+    if (i < list.length - 1) {
+        insertElemOnDSListAfterIndex(&temp, temp.length++, list.data[i]);
+    }
+    else {
+        insertElemOnDSListAfterIndex(&temp, temp.length++, '\0');
+    }
     return temp;
 }
 
-int initSLListH(SLLSpace* space, int16_t* head) {
-    if (!space || !head)
-        return -1;
-    if (space->availHead != -1) {
-        *head = space->availHead;
-        space->availHead = space->nodes[space->availHead].next;
+static DSList getDSListNextElem(DSList list, listData elem) {
+    DSList temp;
+    if (!DSL.new(&temp)) {
+        temp.length = -1;
+        return temp;
     }
-    else
-        return -1;
-    space->nodes[(size_t) head].next = -1;
-    return 0;
+    int i = 0;
+    while (i < list.length && list.data[i] != elem)
+        ++i;
+    if (i < list.length - 1) {
+        insertElemOnDSListAfterIndex(&temp, temp.length++, list.data[i + 2]);
+    }
+    else {
+        insertElemOnDSListAfterIndex(&temp, temp.length++, '\0');
+    }
+    return temp;
 }
 
-int destroySLListH(SLLSpace* space, int16_t* head) {
-    if (!space || !head)
-        return -1;
-    int16_t cursor = *head;
-    while (space->nodes[cursor].next != -1)
-        cursor = space->nodes[cursor].next;
-    space->nodes[cursor].next = space->availHead;
-    space->availHead = *head;
-    *head = -1;
-    return 0;
+static bool deleteElemOnDSListAtIndex(DSList* list, int index) {
+    if (!list || index < 1 || index > list->length)
+        return false;
+    for (int i = index - 1; i != list->length; ++i)
+        list->data[i] = list->data[i + 1];
+    --list->length;
+    return true;
 }
 
-int clearSLListH(SLLSpace* space, int16_t* head) {
-    if (!space || !head)
-        return -1;
-    int16_t cursor = *head;
-    while (space->nodes[cursor].next != -1)
-        cursor = space->nodes[cursor].next;
-    space->nodes[cursor].next = space->availHead;
-    space->availHead = space->nodes[*head].next;
-    space->nodes[*head].next = -1;
-    return 0;
-}
-
-int ifSLListHIsEmpty(SLLSpace* space, int16_t* head) {
-    if (!space || !head)
-        return -1;
-    return (space->nodes[*head].next == -1);
-}
-
-int16_t getLengthOfSLListH(SLLSpace* space, int16_t* head) {
-    if (!space || !head)
-        return -1;
-    int16_t cursor = *head, counter = 0;
-    while (space->nodes[cursor].next != -1)
-        cursor = space->nodes[cursor].next;
-}
-
-listData getElementAtIndex(SLLSpace* space, int16_t head, int16_t index) {
-    if (!space || head == -1 || index < 1)
-        return 0;
-
-}
-*/
+DynamicSequencedList const DSL = {
+        initDSList,
+        clearDSList,
+        destroyDSList,
+        ifDSListIsEmpty,
+        getLengthOfDSList,
+        getDSListElemAtIndex,
+        locateDSListElemIndex,
+        ifElemIsInDSList,
+        getDSListNextElem,
+        getDSListPrevElem,
+        insertElemOnDSListAfterIndex,
+        deleteElemOnDSListAtIndex
+};

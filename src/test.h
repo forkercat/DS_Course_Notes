@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdio.h>
-#include <string.h>
+//#include <string.h>
 #include "linearlist.h"
 
 #ifdef _WIN32
@@ -14,8 +14,8 @@
 
 #endif
 
-void TestStatus(int (  * test)(char**));
+void TestStatus(bool (* test)(char**));
 
-int SSListTest(char** position);
+bool StaticSequencedListTest(char** position);
 
-int DSListTest(char** position);
+bool DynamicSequencedListTest(char** position);

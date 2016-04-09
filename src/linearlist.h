@@ -26,7 +26,7 @@ typedef struct {
 typedef struct {
     bool (* const clear)(SSList*);
 
-    bool (* const empty)(SSList);
+    bool (* const isEmpty)(SSList);
 
     int (* const getLength)(SSList);
 
@@ -54,81 +54,41 @@ extern SinglySequencedList const SSL;
 #define DSLInitSize 100
 #define DSLAddSize 10
 
-typedef struct dSList DSList;
-
-typedef struct dSLMultiReVal DSLMultiReVal;
-
-struct dSList {
+typedef struct {
     listData* data;
-    int16_t length;
-    int16_t size;
-};
+    int length;
+    int size;
+} DSList;
 
-struct dSLMultiReVal {
-    int16_t returnValue[INT16_MAX];
-};
+typedef struct {
+    int length;
+    int returnValue[INT_MAX];
+} DSLMultiReVal;
 
-int initDSList(DSList* list);
+typedef struct {
+    bool (* const new)(DSList*);
 
-int destroyDSList(DSList* list);
+    bool (* const clear)(DSList*);
 
-int clearDSList(DSList* list);
+    bool (* const delete)(DSList*);
 
-int ifDSListIsEmpty(DSList list);
+    bool (* const isEmpty)(DSList);
 
-int16_t getLengthOfDSList(DSList list);
+    int (* const getLength)(DSList);
 
-listData getDSListElemAtIndex(DSList list, int16_t index);
+    listData (* const getElemAtIndex)(DSList, int);
 
-DSLMultiReVal locateDSListElemIndex(DSList list, listData elem);
+    DSLMultiReVal (* const locateElem)(DSList, listData);
 
-int ifElemIsInDSList(DSList list, listData elem);
+    bool (* const isIn)(DSList, listData);
 
-int16_t getDSListNextElemIndex(DSList list, listData elem);
+    DSList (* const getSucc)(DSList, listData);
 
-int16_t getDSListPrevElemIndex(DSList list, listData elem);
+    DSList (* const getPred)(DSList, listData);
 
-int insertElemOnDSListBeforeIndex(DSList* list, int16_t index, listData elem);
+    bool (* const insertElemAfterIndex)(DSList*, int, listData);
 
-int deleteElemOnDSListAtIndex(DSList* list, int16_t index);
+    bool (* const deleteElemAtIndex)(DSList*, int);
+} DynamicSequencedList;
 
-// Linked List without Head Node --LList
-
-typedef struct lLNode LLNode;
-
-struct lLnode {
-    listData data;
-    LLNode* next;
-};
-
-// Static Linked List with Header --SLListH
-
-#define SLLSize 9999
-
-typedef struct sLLNode SLLNode;
-
-// The space that SLListH relies on
-typedef struct sLLSpace SLLSpace;
-
-typedef struct sLListH SLListH;
-
-struct sLLNode {
-    int16_t next;
-    listData data;
-};
-
-struct sLLSpace {
-    int16_t availHead;
-    SLLNode nodes[SLLSize];
-};
-
-SLLSpace initSLLSpace(void);
-
-int initSLListH(SLLSpace* space, int16_t* head);
-
-int destroySLListH(SLLSpace* space, int16_t* head);
-
-int clearSLListH(SLLSpace* space, int16_t* head);
-
-int ifSLListHIsEmpty(SLLSpace* space, int16_t* head);
-
+extern DynamicSequencedList const DSL;
