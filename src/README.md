@@ -134,9 +134,9 @@ Implementation in ANSI C
   - **Pointer** to the linear list object
   - Index
   
-  > From `0` to the length of the list <br>
-  > If index is `0`, the element will be inserted at the head of the list <br>
-  > If index is "the length of the list", the element will be inserted at the tail of the list
+    > From `0` to the length of the list <br>
+    > If index is `0`, the element will be inserted at the head of the list <br>
+    > If index is "the length of the list", the element will be inserted at the tail of the list
 
   - Element
 - Return value: **Boolean** of "Insert complete"
