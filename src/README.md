@@ -4,8 +4,6 @@
 
 Implementation in ANSI C
 
-Test passed on Windows, OS X and Linux.
-
 ## Progress
 
 - [x] Static Sequenced List
