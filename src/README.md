@@ -7,7 +7,7 @@ Implementation in ANSI C
 ## Progress
 
 - [x] Static Sequenced List
-- [ ] Dynamic Sequenced List
+- [x] Dynamic Sequenced List
 - [ ] Singly Linked List without Head Node
 - [ ] Singly Linked List
 - [ ] Static Linked List
