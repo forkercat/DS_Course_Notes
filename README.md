@@ -12,7 +12,7 @@
 
 Implement (necessary) Data Structures & Algorithms in ANSI C.
 
-For detail, see [implementation](/src/README.md).
+For detail, see [implementation](/src).
 
 ## License
 [WTFPL](http://www.wtfpl.net/txt/copying/)
