@@ -6,11 +6,21 @@ Implementation in ANSI C
 
 ## Table of contents
 
-- [Experiments](#Experiments)
-- [Progress](#Progress)
-- [Functions](#Functions)
+- [Experiments](#experiments)
+- [Progress](#progress)
+- [Functions](#functions)
   - [Reference Counting](#reference-counting)
+    - [Alloc](#alloc)
+    - [Retain](#retain)
+    - [Release](#release)
   - [Linear List](#linear-list)
+    - [new](#new)
+    - [clear](#clear)
+    - [delete](#delete)
+    - [isEmpty](#isempty)
+    - [getLength](#getlength)
+    - [getElemAtIndex](#getelematindex)
+    - [locateElem](#locateelem)
 
 ## Experiments
 
