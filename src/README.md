@@ -4,6 +4,17 @@
 
 Implementation in ANSI C
 
+## Table of contents
+
+- Experiments
+- Progress
+- Functions
+
+## Experiments
+
+- [x] Emulate `namespace`
+- [ ] Reference Counting
+
 ## Progress
 
 - [x] Static Sequenced List
@@ -16,10 +27,6 @@ Implementation in ANSI C
 - [ ] Linked Stack
 - [ ] Linked Queue
 - [ ] Circular Queue
-
-## Table of contents
-
-1. Linear List
 
 ## Functions
 
