@@ -6,9 +6,9 @@ Implementation in ANSI C
 
 ## Table of contents
 
-- Experiments
-- Progress
-- Functions
+- [Experiments](/src/README.md#Experiments)
+- [Progress](/src/README.md#Progress)
+- [Functions](/src/README.md#Functions)
 
 ## Experiments
 
@@ -29,6 +29,26 @@ Implementation in ANSI C
 - [ ] Circular Queue
 
 ## Functions
+
+### Reference Counting
+
+#### `Alloc`
+
+- Allocate memory space, declare reference counter & assign to `1`
+- No Parameter
+- Return value: A void **pointer** to the memory space
+
+#### `Retain`
+
+- Self-add reference counter
+- Parameter(s): A **pointer** to the memory space allocated by `Alloc`
+- No return value
+
+#### `Release`
+
+- Self-minus reference counter; If reference counter equals to `0`, the memory space will be freed.
+- Parameter(s): A **pointer** to the memory space allocated by `Alloc`
+- No return value
 
 ### Linear List
 
