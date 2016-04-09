@@ -6,11 +6,11 @@ Implementation in ANSI C
 
 ## Table of contents
 
-- [Experiments](/src/README.md#Experiments)
-- [Progress](/src/README.md#Progress)
-- [Functions](/src/README.md#Functions)
-  - [Reference Counting](/src#reference-counting)
-  - [Linear List](/src#linear-list)
+- [Experiments](#Experiments)
+- [Progress](#Progress)
+- [Functions](#Functions)
+  - [Reference Counting](#reference-counting)
+  - [Linear List](#linear-list)
 
 ## Experiments
 
