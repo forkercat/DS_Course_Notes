@@ -1,3 +1,5 @@
+// Implementation of Reference Counting
+
 #pragma once
 
 #include <stddef.h>

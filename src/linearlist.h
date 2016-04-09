@@ -62,7 +62,8 @@ typedef struct {
 
 typedef struct {
     int length;
-    int returnValue[INT_MAX];
+    int size;
+    int* returnValue;
 } DSLMultiReVal;
 
 typedef struct {
@@ -79,6 +80,8 @@ typedef struct {
     listData (* const getElemAtIndex)(DSList, int);
 
     DSLMultiReVal (* const locateElem)(DSList, listData);
+
+    bool (*const recycleLocateResult)(DSLMultiReVal*);
 
     bool (* const isIn)(DSList, listData);
 

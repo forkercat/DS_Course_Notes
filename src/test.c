@@ -3,7 +3,7 @@
 
 void TestStatus(bool (* test)(char**)) {
     char* position = NULL;
-    if (!test(&position))
+    if (test(&position))
         printf("\nSuccess!\n");
     else
         printf("\nFailed at %s.\n", position);
@@ -11,6 +11,18 @@ void TestStatus(bool (* test)(char**)) {
 
 bool StaticSequencedListTest(char** position) {
     TESTMODULE;
+
+//  clear OK
+//  isEmpty OK
+//  getLength OK
+//  getElemAtIndex OK
+//  locateElem OK
+//  isIn OK
+//  getSucc OK
+//  getPred OK
+//  insertElemAfterIndex OK
+//  deleteElemAtIndex OK
+
     SSList list;
 
     *position = "Clear";
@@ -34,6 +46,27 @@ bool StaticSequencedListTest(char** position) {
         list.data[2] != 'g' || list.data[3] != 'P' || list.data[4] != 'a')
         return false;
 
+    *position = "If element is on list";
+    if (!SSL.isIn(list, 'g'))
+        return false;
+    if (SSL.isIn(list, 'z'))
+        return false;
+
+
+    *position = "Delete elements";
+    SSL.deleteElemAtIndex(&list, 3);
+    if (list.length != 4 || list.data[2] != 'P' || list.data[3] != 'a')
+        return false;
+
+    SSL.insertElemAfterIndex(&list, 2, 'g');
+
+    *position = "Get element at index";
+    if (SSL.getElemAtIndex(list, 1) != 'B')
+        return false;
+    if (SSL.getElemAtIndex(list, 99) != '\0')
+        return false;
+
+    *position = "Insert element at out-of-range index";
     if (SSL.insertElemAfterIndex(&list, 999, 'c'))
         return false;
     if (SSL.insertElemAfterIndex(&list, -2, 'x'))
@@ -85,6 +118,7 @@ bool StaticSequencedListTest(char** position) {
         return false;
 
     *position = "Overflow insert";
+    SSL.clear(&list);
     int counter = 0;
     for (int i = 0; i < SSLSize * 2; ++i) {
         if (!SSL.insertElemAfterIndex(&list, 0, 'X'))
@@ -94,7 +128,7 @@ bool StaticSequencedListTest(char** position) {
     if (counter != SSLSize)
         return false;
 
-    return 0;
+    return true;
 }
 
 bool DynamicSequencedListTest(char** position) {
@@ -113,26 +147,46 @@ bool DynamicSequencedListTest(char** position) {
     DSL.insertElemAfterIndex(&list, 3, 'P');
     DSL.insertElemAfterIndex(&list, 4, 'a');
     if (list.length != 5 || list.data[0] != 'B' || list.data[1] != 'i' ||
-        list.data[2] != 'g' || list.data[3] != 'P' || list.data[4] != 'a')
+        list.data[2] != 'g' || list.data[3] != 'P' || list.data[4] != 'a') {
+        free(list.data);
         return false;
+    }
 
-    if (DSL.insertElemAfterIndex(&list, 999, 'c'))
+    *position = "Insert elements at out-of-range index";
+    if (DSL.insertElemAfterIndex(&list, 999, 'c')) {
+        free(list.data);
         return false;
-    if (DSL.insertElemAfterIndex(&list, -2, 'x'))
+    }
+    if (DSL.insertElemAfterIndex(&list, -2, 'x')) {
+        free(list.data);
         return false;
+    }
 
     *position = "Empty check --false";
-    if (DSL.isEmpty(list))
+    if (DSL.isEmpty(list)) {
+        free(list.data);
         return false;
+    }
 
     *position = "Clear list";
     DSL.clear(&list);
-    if (list.length != 0)
+    if (list.length != 0) {
+        free(list.data);
         return false;
+    }
 
     *position = "Empty check --true";
-    if (!DSL.isEmpty(list))
+    if (!DSL.isEmpty(list)) {
+        free(list.data);
         return false;
+    }
+
+    *position = "Delete list";
+    DSL.delete(&list);
+    if (list.data)
+        return false;
+
+    DSL.new(&list);
 
     *position = "Overflow insert";
     char ascii = 33;
@@ -142,8 +196,11 @@ bool DynamicSequencedListTest(char** position) {
         DSL.insertElemAfterIndex(&list, i, ascii++);
     }
 
-    if (list.length != DSLInitSize + 1 || list.size != DSLInitSize + DSLAddSize)
+    if (list.length != DSLInitSize + 1 ||
+        list.size != DSLInitSize + DSLAddSize) {
+        DSL.delete(&list);
         return false;
+    }
 
     bool insertPass = true;
     ascii = 33;
@@ -155,9 +212,11 @@ bool DynamicSequencedListTest(char** position) {
             break;
         }
     }
-    if (!insertPass)
+    if (!insertPass) {
+        DSL.delete(&list);
         return false;
+    }
 
 
-    return 0;
+    return true;
 }

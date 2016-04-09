@@ -179,6 +179,49 @@ static bool ifElemIsInDSList(DSList list, listData elem) {
     return found;
 }
 
+// Start F**king MSVC
+
+bool newDSLMultiReVal(DSLMultiReVal* result) {
+    if (!result)
+        return false;
+    result->returnValue = (int*) calloc(DSLAddSize, sizeof(int));
+    if (!result->returnValue)
+        return false;
+    result->length = 0;
+    result->size = DSLAddSize;
+    return true;
+}
+
+bool insertIndexAtDSLMultiReVal(DSLMultiReVal* result, int location,
+                                int index) {
+    if (!result || !result->returnValue || location < 1 ||
+        location > result->length || index < 1)
+        return false;
+    if (result->length == result->size) {
+        int* newReturnValue = (int*) realloc(result->returnValue,
+                                             (result->size + DSLAddSize) *
+                                             sizeof(int));
+        if (!newReturnValue)
+            return false;
+        result->returnValue = newReturnValue;
+        result->size += DSLAddSize;
+    }
+    for (int i = result->length; i > location; --i)
+        result->returnValue[i] = result->returnValue[i - 1];
+    result->returnValue[location] = index;
+    ++result->length;
+    return true;
+}
+
+static bool recycleDSLMultiReVal(DSLMultiReVal* result) {
+    if (!result)
+        return false;
+    free(result->returnValue);
+    return true;
+}
+
+// End F**king MSVC
+
 static DSLMultiReVal locateDSListElemIndex(DSList list, listData elem) {
     DSLMultiReVal returnValue = {0};
     returnValue.length = 0;
@@ -263,6 +306,7 @@ DynamicSequencedList const DSL = {
         getLengthOfDSList,
         getDSListElemAtIndex,
         locateDSListElemIndex,
+        recycleDSLMultiReVal,
         ifElemIsInDSList,
         getDSListNextElem,
         getDSListPrevElem,
