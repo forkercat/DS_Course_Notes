@@ -12,19 +12,15 @@ void TestStatus(bool (* test)(char**)) {
 bool StaticSequencedListTest(char** position) {
     TESTMODULE;
 
-//  clear OK
-//  isEmpty OK
-//  getLength OK
 //  getElemAtIndex OK
 //  locateElem OK
 //  isIn OK
 //  getSucc OK
 //  getPred OK
-//  insertElemAfterIndex OK
-//  deleteElemAtIndex OK
 
     SSList list;
 
+//  clear
     *position = "Clear";
     SSL.clear(&list);
     if (list.length != 0)
@@ -36,6 +32,7 @@ bool StaticSequencedListTest(char** position) {
     if (c != '\0')
         return false;
 
+//  insertElemAfterIndex
     *position = "Insert elements";
     SSL.insertElemAfterIndex(&list, 0, 'B');
     SSL.insertElemAfterIndex(&list, 1, 'i');
@@ -46,13 +43,19 @@ bool StaticSequencedListTest(char** position) {
         list.data[2] != 'g' || list.data[3] != 'P' || list.data[4] != 'a')
         return false;
 
+    *position = "Insert element at out-of-range index";
+    if (SSL.insertElemAfterIndex(&list, 999, 'c'))
+        return false;
+    if (SSL.insertElemAfterIndex(&list, -2, 'x'))
+        return false;
+
     *position = "If element is on list";
     if (!SSL.isIn(list, 'g'))
         return false;
     if (SSL.isIn(list, 'z'))
         return false;
 
-
+//  deleteElemAtIndex
     *position = "Delete elements";
     SSL.deleteElemAtIndex(&list, 3);
     if (list.length != 4 || list.data[2] != 'P' || list.data[3] != 'a')
@@ -66,12 +69,18 @@ bool StaticSequencedListTest(char** position) {
     if (SSL.getElemAtIndex(list, 99) != '\0')
         return false;
 
-    *position = "Insert element at out-of-range index";
-    if (SSL.insertElemAfterIndex(&list, 999, 'c'))
-        return false;
-    if (SSL.insertElemAfterIndex(&list, -2, 'x'))
+    *position = "Overflow insert";
+    SSL.clear(&list);
+    int counter = 0;
+    for (int i = 0; i < SSLSize * 2; ++i) {
+        if (!SSL.insertElemAfterIndex(&list, 0, 'X'))
+            break;
+        ++counter;
+    }
+    if (counter != SSLSize)
         return false;
 
+//  getLength
     *position = "Get length";
     if (SSL.getLength(list) != 5)
         return false;
@@ -112,20 +121,10 @@ bool StaticSequencedListTest(char** position) {
         returnValue.returnValue[1] != 6)
         return false;
 
+//  isEmpty
     *position = "Empty check --true";
     SSL.clear(&list);
     if (!SSL.isEmpty(list))
-        return false;
-
-    *position = "Overflow insert";
-    SSL.clear(&list);
-    int counter = 0;
-    for (int i = 0; i < SSLSize * 2; ++i) {
-        if (!SSL.insertElemAfterIndex(&list, 0, 'X'))
-            break;
-        ++counter;
-    }
-    if (counter != SSLSize)
         return false;
 
     return true;
@@ -139,6 +138,18 @@ bool DynamicSequencedListTest(char** position) {
     DSL.new(&list);
     if (list.length != 0 || list.size != DSLInitSize || list.data == NULL)
         return false;
+
+    *position = "Clear list";
+    DSL.clear(&list);
+    if (list.length != 0)
+        return false;
+
+    *position = "Delete list";
+    DSL.delete(&list);
+    if (list.data!= NULL || list.length != 0 || list.size != 0)
+        return false;
+
+    DSL.new(&list);
 
     *position = "Insert elements";
     DSL.insertElemAfterIndex(&list, 0, 'B');
@@ -162,33 +173,9 @@ bool DynamicSequencedListTest(char** position) {
         return false;
     }
 
-    *position = "Empty check --false";
-    if (DSL.isEmpty(list)) {
-        free(list.data);
-        return false;
-    }
-
-    *position = "Clear list";
-    DSL.clear(&list);
-    if (list.length != 0) {
-        free(list.data);
-        return false;
-    }
-
-    *position = "Empty check --true";
-    if (!DSL.isEmpty(list)) {
-        free(list.data);
-        return false;
-    }
-
-    *position = "Delete list";
-    DSL.delete(&list);
-    if (list.data)
-        return false;
-
-    DSL.new(&list);
-
     *position = "Overflow insert";
+    DSL.clear(&list);
+
     char ascii = 33;
     for (int i = 0; i < DSLInitSize + 1; ++i) {
         if (ascii == 127)
@@ -217,6 +204,37 @@ bool DynamicSequencedListTest(char** position) {
         return false;
     }
 
+    *position = "Empty check --false";
+    if (DSL.isEmpty(list)) {
+        free(list.data);
+        return false;
+    }
 
+    DSL.clear(&list);
+
+    *position = "Empty check --true";
+    if (!DSL.isEmpty(list)) {
+        free(list.data);
+        return false;
+    }
+
+    *position = "Delete list";
+    DSL.delete(&list);
+    if (list.data)
+        return false;
+
+    DSL.new(&list);
+
+
+    *position = "Delete elements";
+
+    ascii = 33;
+    for (int i = 0; i < 26; ++i) {
+        DSL.insertElemAfterIndex(&list, i, ascii++);
+    }
+
+    if (DSL.deleteElemAtIndex(&list, 666))
+        return false;
+    DSL.delete(&list);
     return true;
 }
