@@ -1,128 +1,240 @@
 #include "test.h"
+#include "linearlist.h"
 
-void TestStatus(int (* test)(char**)) {
+void TestStatus(bool (* test)(char**)) {
     char* position = NULL;
-    if (!test(&position))
+    if (test(&position))
         printf("\nSuccess!\n");
     else
         printf("\nFailed at %s.\n", position);
 }
 
-int SSListTest(char** position) {
+bool StaticSequencedListTest(char** position) {
     TESTMODULE;
+
+//  getElemAtIndex OK
+//  locateElem OK
+//  isIn OK
+//  getSucc OK
+//  getPred OK
+
     SSList list;
 
-    *position = "Init";
-    initSSList(&list);
+//  clear
+    *position = "Clear";
+    SSL.clear(&list);
     if (list.length != 0)
-        return -1;
+        return false;
 
-    *position = "get elem with out-of-range index";
-    char c = getSSListElemAtIndex(list, 6);
-    if ((int) c != -1)
-        return -1;
+    *position = "Get element at out-of-range index";
+    char c = '6';
+    c = SSL.getElemAtIndex(list, 6);
+    if (c != '\0')
+        return false;
 
-    *position = "Insert elements and check length";
-    insertElemOnSSListAfterIndex(&list, 0, 'B');
-    insertElemOnSSListAfterIndex(&list, 1, 'i');
-    if (list.length != 2 || list.data[0] != 'B' || list.data[1] != 'i')
-        return -1;
+//  insertElemAfterIndex
+    *position = "Insert elements";
+    SSL.insertElemAfterIndex(&list, 0, 'B');
+    SSL.insertElemAfterIndex(&list, 1, 'i');
+    SSL.insertElemAfterIndex(&list, 2, 'g');
+    SSL.insertElemAfterIndex(&list, 3, 'P');
+    SSL.insertElemAfterIndex(&list, 4, 'a');
+    if (list.length != 5 || list.data[0] != 'B' || list.data[1] != 'i' ||
+        list.data[2] != 'g' || list.data[3] != 'P' || list.data[4] != 'a')
+        return false;
 
-    *position = "Get length";
-    if (getLengthOfSSList(list) != 2)
-        return -1;
+    *position = "Insert element at out-of-range index";
+    if (SSL.insertElemAfterIndex(&list, 999, 'c'))
+        return false;
+    if (SSL.insertElemAfterIndex(&list, -2, 'x'))
+        return false;
 
-    *position = "Empty check --false";
-    if (ifSSListIsEmpty(list))
-        return -1;
+    *position = "If element is on list";
+    if (!SSL.isIn(list, 'g'))
+        return false;
+    if (SSL.isIn(list, 'z'))
+        return false;
 
-    *position = "Delete element and check length";
-    deleteElemOnSSListAtIndex(&list, 1);
-    if (list.length != 1 || list.data[0] != 'i')
-        return -1;
+//  deleteElemAtIndex
+    *position = "Delete elements";
+    SSL.deleteElemAtIndex(&list, 3);
+    if (list.length != 4 || list.data[2] != 'P' || list.data[3] != 'a')
+        return false;
 
-    *position = "If element on list";
-    if (ifElemIsInSSList(list, 'B') == 1 || ifElemIsInSSList(list, 'i') == 0)
-        return -1;
+    SSL.insertElemAfterIndex(&list, 2, 'g');
 
-    // In SSList, there is no difference in clear & destroy operation
-    *position = "Clear & Destroy list";
-    for (int i = 0; i < 1000; ++i)
-        insertElemOnSSListAfterIndex(&list, 0, 'X');
-    clearSSList(&list);
-    if (list.length != 0)
-        return -1;
-
-    *position = "Empty check --true";
-    if (!ifSSListIsEmpty(list))
-        return -1;
-
-    clearSSList(&list);
-
-    *position = "Get prev & next";
-
-    insertElemOnSSListAfterIndex(&list, 0, '!');
-    insertElemOnSSListAfterIndex(&list, 0, 's');
-    insertElemOnSSListAfterIndex(&list, 0, 'u');
-    insertElemOnSSListAfterIndex(&list, 0, 'o');
-    insertElemOnSSListAfterIndex(&list, 0, 'i');
-    insertElemOnSSListAfterIndex(&list, 0, 'c');
-    insertElemOnSSListAfterIndex(&list, 0, 'i');
-    insertElemOnSSListAfterIndex(&list, 0, 'l');
-    insertElemOnSSListAfterIndex(&list, 0, 'e');
-    insertElemOnSSListAfterIndex(&list, 0, 'd');
-
-    SSLMultiReVal prev = getSSListPrevElemIndex(list, 'i');
-    SSLMultiReVal next = getSSListNextElemIndex(list, 'i');
-    SSLMultiReVal prevHead = getSSListPrevElemIndex(list, 'd');
-    SSLMultiReVal nextEnd = getSSListNextElemIndex(list, '!');
-    if (prev.returnValue[0] != 3 || prev.returnValue[1] != 5 ||
-        prev.returnValue[2] != 0 || next.returnValue[0] != 5 ||
-        next.returnValue[1] != 7 || next.returnValue[2] != 0)
-        return -1;
-
-    *position = "Get prev & next's edge";
-    if (prevHead.returnValue[0] != -1 || prevHead.returnValue[1] != 0 ||
-        nextEnd.returnValue[0] != -1 || nextEnd.returnValue[1] != 0)
-        return -1;
-
-    clearSSList(&list);
+    *position = "Get element at index";
+    if (SSL.getElemAtIndex(list, 1) != 'B')
+        return false;
+    if (SSL.getElemAtIndex(list, 99) != '\0')
+        return false;
 
     *position = "Overflow insert";
-    int16_t i = 0;
-    for (; i < SSLSize * 2; ++i) {
-        if (!insertElemOnSSListAfterIndex(&list, 0, '$'))
+    SSL.clear(&list);
+    int counter = 0;
+    for (int i = 0; i < SSLSize * 2; ++i) {
+        if (!SSL.insertElemAfterIndex(&list, 0, 'X'))
             break;
+        ++counter;
     }
-    if (i != SSLSize)
-        return -1;
+    if (counter != SSLSize)
+        return false;
+
+//  getLength
+    *position = "Get length";
+    if (SSL.getLength(list) != 5)
+        return false;
+
+    *position = "Empty check --false";
+    if (SSL.isEmpty(list))
+        return false;
+
+    *position = "Get successor & predecessor";
+    SSList temp = SSL.getSucc(list, 'B');
+    if (temp.length != 1 || temp.data[0] != 'i')
+        return false;
+
+    temp = SSL.getSucc(list, 'a');
+    if (temp.length != 1 || temp.data[0] != '\0')
+        return false;
+
+    temp = SSL.getPred(list, 'B');
+    if (temp.length != 1 || temp.data[0] != '\0')
+        return false;
+
+    temp = SSL.getPred(list, 'g');
+    if (temp.length != 1 || temp.data[0] != 'i')
+        return false;
+
+    SSL.insertElemAfterIndex(&list, 5, 'P');
+    temp = SSL.getSucc(list, 'P');
+    if (temp.length != 2 || temp.data[0] != 'a' || temp.data[1] != '\0')
+        return false;
 
     *position = "Locate elements";
-    clearSSList(&list);
-    insertElemOnSSListAfterIndex(&list, 0, 'X');
-    insertElemOnSSListAfterIndex(&list, 0, '\0');
-    insertElemOnSSListAfterIndex(&list, 0, 'X');
-    insertElemOnSSListAfterIndex(&list, 0, 'X');
-    insertElemOnSSListAfterIndex(&list, 0, '\0');
-    insertElemOnSSListAfterIndex(&list, 0, 'X');
-    insertElemOnSSListAfterIndex(&list, 0, 'X');
-    SSLMultiReVal result = locateSSListElemIndex(list, '\0');
-    if (result.returnValue[0] != 3 || result.returnValue[1] != 6 ||
-        result.returnValue[2] != 0)
-        return -1;
+    SSLMultiReVal returnValue = SSL.locateElem(list, 'B');
+    if (returnValue.length != 1 || returnValue.returnValue[0] != 1)
+        return false;
 
-    return 0;
+    returnValue = SSL.locateElem(list, 'P');
+    if (returnValue.length != 2 || returnValue.returnValue[0] != 4 ||
+        returnValue.returnValue[1] != 6)
+        return false;
+
+//  isEmpty
+    *position = "Empty check --true";
+    SSL.clear(&list);
+    if (!SSL.isEmpty(list))
+        return false;
+
+    return true;
 }
 
-
-int DSListTest(char** position) {
+bool DynamicSequencedListTest(char** position) {
     TESTMODULE;
-    *position = "Init";
+
+    *position = "New list";
     DSList list;
-    initDSList(&list);
-    if (!list.data || list.length != 0 || list.size != DSLInitSize)
-        return -1;
+    DSL.new(&list);
+    if (list.length != 0 || list.size != DSLInitSize || list.data == NULL)
+        return false;
+
+    *position = "Clear list";
+    DSL.clear(&list);
+    if (list.length != 0)
+        return false;
+
+    *position = "Delete list";
+    DSL.delete(&list);
+    if (list.data!= NULL || list.length != 0 || list.size != 0)
+        return false;
+
+    DSL.new(&list);
+
+    *position = "Insert elements";
+    DSL.insertElemAfterIndex(&list, 0, 'B');
+    DSL.insertElemAfterIndex(&list, 1, 'i');
+    DSL.insertElemAfterIndex(&list, 2, 'g');
+    DSL.insertElemAfterIndex(&list, 3, 'P');
+    DSL.insertElemAfterIndex(&list, 4, 'a');
+    if (list.length != 5 || list.data[0] != 'B' || list.data[1] != 'i' ||
+        list.data[2] != 'g' || list.data[3] != 'P' || list.data[4] != 'a') {
+        free(list.data);
+        return false;
+    }
+
+    *position = "Insert elements at out-of-range index";
+    if (DSL.insertElemAfterIndex(&list, 999, 'c')) {
+        free(list.data);
+        return false;
+    }
+    if (DSL.insertElemAfterIndex(&list, -2, 'x')) {
+        free(list.data);
+        return false;
+    }
+
+    *position = "Overflow insert";
+    DSL.clear(&list);
+
+    char ascii = 33;
+    for (int i = 0; i < DSLInitSize + 1; ++i) {
+        if (ascii == 127)
+            ascii = 33;
+        DSL.insertElemAfterIndex(&list, i, ascii++);
+    }
+
+    if (list.length != DSLInitSize + 1 ||
+        list.size != DSLInitSize + DSLAddSize) {
+        DSL.delete(&list);
+        return false;
+    }
+
+    bool insertPass = true;
+    ascii = 33;
+    for (int i = 0; i < DSLInitSize + 1; ++i) {
+        if (ascii == 127)
+            ascii = 33;
+        if (list.data[i] != ascii++) {
+            insertPass = false;
+            break;
+        }
+    }
+    if (!insertPass) {
+        DSL.delete(&list);
+        return false;
+    }
+
+    *position = "Empty check --false";
+    if (DSL.isEmpty(list)) {
+        free(list.data);
+        return false;
+    }
+
+    DSL.clear(&list);
+
+    *position = "Empty check --true";
+    if (!DSL.isEmpty(list)) {
+        free(list.data);
+        return false;
+    }
+
+    *position = "Delete list";
+    DSL.delete(&list);
+    if (list.data)
+        return false;
+
+    DSL.new(&list);
 
 
-    return 0;
+    *position = "Delete elements";
+
+    ascii = 33;
+    for (int i = 0; i < 26; ++i) {
+        DSL.insertElemAfterIndex(&list, i, ascii++);
+    }
+
+    if (DSL.deleteElemAtIndex(&list, 666))
+        return false;
+    DSL.delete(&list);
+    return true;
 }

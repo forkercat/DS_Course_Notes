@@ -1,8 +1,7 @@
-#include "linearlist.h"
 #include "test.h"
 
 int main(void) {
-    TestStatus(SSListTest);
-    TestStatus(DSListTest);
+    TestStatus(StaticSequencedListTest);
+    TestStatus(DynamicSequencedListTest);
     return 0;
 }
