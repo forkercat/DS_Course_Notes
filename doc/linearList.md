@@ -821,7 +821,16 @@ void InitList(DblList &first) {
 ```
 ### 销毁表
 ```c++
-
+void DestroyList(DblList &first) {
+	DblList q,p = first->next;
+	while (p!=first){
+		q=p->next;
+		free(p);
+		p=q;
+	}
+	free(first);
+	first=NULL;
+}
 ```
 ### 清空表
 ### 检查是否为空表
