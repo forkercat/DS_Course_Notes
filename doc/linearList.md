@@ -69,7 +69,7 @@ void ClearList(Seqlist &L) {
 ```
 ### 检查是否为空表
 ```c++
-int ListEmpty(SeqList &L) {
+int ListEmpty(SeqList L) {
     return !L.length;
 }
 ```
