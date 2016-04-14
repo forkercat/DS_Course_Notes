@@ -821,10 +821,38 @@ void InitList(DblList &first) {
 ```
 ### 销毁表
 ```c++
-
+void DestroyList(DblList &first) {
+	DblList q,p = first->next;
+	while (p!=first){
+		q=p->next;
+		free(p);
+		p=q;
+	}
+	free(first);
+	first=NULL;
+}
 ```
 ### 清空表
-### 检查是否为空表
+```c++
+void ClearList(DblList first) {
+	DblList q,p=first->next;
+	while(p!=first){
+		q=p->next;
+		free(p);
+		p=q;
+	}
+	first->next=first->prior=first;
+}
+```
+### 检查是否为空表c
+```c++
+int ListEmpty(DblList first){
+	if(first->next==first&&first->prior==first)
+		return 1;
+	else
+		return 0;
+}
+```
 ### 获取表的长度
 ```c++
 int ListLength(DblList first) {
@@ -853,9 +881,29 @@ int ListInsert(DblList first, int i, ListData x) {
 }
 ```
 ### 获取指定元素的下标
+```c++
+DblNode* LocateElem(DblList first, ListData x) {
+    DblList p = first->next;
+    while (p!=first && (p->data != x))
+         p = p->next;
+    return p;     
+}
+```
 ### 判断元素是否在表中
+```c++
+int IsIn(DblList first,ListData x){
+	DblList p = first->next;
+	while(p!=first && (p->data!=x))
+		p=p->next;
+	return !(p==NULL);
+}
+```
 ### 获取直接前驱
+```c++
+```
 ### 获取直接后继
+```c++
+```
 ### 在指定下标之前插入元素
 ```c++
 int ListInsert (DblList first,  int i, ListData x) {
