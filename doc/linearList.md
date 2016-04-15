@@ -514,7 +514,7 @@ void DestroyList(LinkList &first) {
 ```
 ### 清空表
 ```c++
-void clear(LinkList &first) {
+void ClearList(LinkList &first) {
     ListNode p, *q = first->next;
     while (q) {
  	    p=q; q=q→next;
@@ -678,7 +678,7 @@ void DestroyList(SLinkList &Space, int &Slink) {
 ```
 ### 清空表
 ```c++
-void DestroyList(SLinkList &Space，int Slink) {
+void ClearList(SLinkList &Space，int Slink) {
     p = Space.Nodes[Slink].link;
     while (Space.Nodes[p].link != -1)
     	p=Space.Nodes[p].link;
