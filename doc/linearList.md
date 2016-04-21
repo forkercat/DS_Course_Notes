@@ -865,7 +865,7 @@ int ListLength(DblList first) {
     return count;
 }
 ```
-### 获取指定下标的元素
+### 插入元素
 ```c++
 int ListInsert(DblList first, int i, ListData x) {
     DblNode * p = LocateElem4 ( first, i-1 );
