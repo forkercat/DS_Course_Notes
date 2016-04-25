@@ -894,7 +894,7 @@ int IsIn(DblList first,ListData x){
 	DblList p = first->next;
 	while(p!=first && (p->data!=x))
 		p=p->next;
-	return !(p==NULL);
+	return !(p==first);
 }
 ```
 ### 获取直接前驱
