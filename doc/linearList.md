@@ -112,13 +112,12 @@ int LocateElem(SeqList L, ListData x) {
 ### 判断元素是否在表中
 ```c++
 int IsIn(SeqList L, ListData x) {
-    for (int i = 0; i < L.length && L.data[i] != x; ++i) {}
-    if (i < L.length - 1) {
-        return i + 1;
+    int i=0,found=0;
+    while((i<L.length)&&!found){
+        if(L.data[i]!=x) i++;
+        else found=1;
     }
-    else {
-        return -1;
-    }
+    return found;
 }
 ```
 
@@ -895,7 +894,7 @@ int IsIn(DblList first,ListData x){
 	DblList p = first->next;
 	while(p!=first && (p->data!=x))
 		p=p->next;
-	return !(p==NULL);
+	return !(p==first);
 }
 ```
 ### 获取直接前驱
