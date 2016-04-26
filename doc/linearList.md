@@ -914,7 +914,7 @@ int ListInsert (DblList first,  int i, ListData x) {
     q->prior = p;
     q->next = p->next;
     p->next = q;
-    p->next->prior = q; 
+    q->next->prior = q; 
     return 1;
 }
 ```
